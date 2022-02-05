@@ -1,3 +1,4 @@
+
 function createButton(name,id, class_name){
     var button = document.createElement("button");
     button.innerHTML = name;
@@ -69,11 +70,17 @@ function paperNameGen(){
     
         return lowerCase.replace(/\w\S*/g, x => x.charAt(0).toUpperCase() + x.substr(1).toLowerCase());
       }
-    let paper_name = noun_array[Math.floor(Math.random() * noun_array.length)]
-    return titleCase(paper_name) + ",  All You Need";
+    let ai_term = noun_array[Math.floor(Math.random() * noun_array.length)]
+    //if paper_name starts with a space, remove it
+    if (ai_term.charAt(0) == " "){
+        ai_term = paper_name.substring(1);
+    }
+    
+    // check if ai_term is plural, is so set is_or_are to "are"
+    return titleCase(ai_term) + ", All You Need?";
     }
 
 function GetTermList(){
-    return ['Did You Know?', 'A', ' A/B testing', ' accuracy', ' Click the icon for additional notes. ', 'action', 'activation function', 'active learning', ' AdaGrad', ' agent', ' agglomerative clustering', ' anomaly detection', ' AR', ' area under the PR curve', ' area under the ROC curve', ' artificial general intelligence', ' artificial intelligence', ' attention', ' attribute', ' AUC (Area under the ROC Curve)', ' augmented reality', ' automation bias ', ' average precision ', 'B', ' backpropagation', ' bag of words', ' baseline', ' batch', ' batch normalization', ' batch size', ' Bayesian neural network', ' Bayesian optimization', ' Bellman equation', ' BERT (Bidirectional Encoder Representations from Transformers)', ' bias (ethics/fairness)', ' bias (math)', ' bigram', ' bidirectional', ' bidirectional language model', ' binary classification', ' binning', ' BLEU (Bilingual Evaluation Understudy)', ' boosting', ' bounding box', ' broadcasting', ' bucketing', 'C', ' calibration layer', ' candidate generation', ' candidate sampling', ' categorical data', ' causal language model', 'centroid', ' centroid-based clustering', ' checkpoint', ' class', ' classification model', ' classification threshold', ' Cloud TPU ', 'clustering', ' convex function', ' device', ' empirical risk minimization (ERM)', ' encoder', 'F', ' fairness constraint', ' false positive (FP)', ' feature vector', ' generative adversarial network (GAN)', ' gradient clipping', ' hinge loss', ' inference', ' in-group bias ', 'IoU', ' labeled example', ' LaMDA (Language Model for Dialogue Applications)', ' lambda', ' linear regression', ' logistic regression', ' Log Loss', ' node (neural network)', ' one-shot learning', ' one-vs.-all']
+    return ['A/B testing', 'Accuracy', 'action', 'activation function', 'active learning', 'AdaGrad', 'agent', 'agglomerative clustering', 'anomaly detection', 'AR', 'artificial general intelligence', 'artificial intelligence', 'attention is still', 'attribute', 'AUC (Area under the ROC Curve)', 'augmented reality', 'automation bias ', 'average precision ', 'B', 'backpropagation', 'bag of words', 'baseline', 'batch', 'batch normalization', 'batch size', 'Bayesian neural network', 'Bayesian optimization', 'Bellman equation', 'BERT (Bidirectional Encoder Representations from Transformers)', 'bias (ethics/fairness)', 'bias (math)', 'bigram', 'bidirectional', 'bidirectional language model', 'binary classification', 'binning', 'BLEU (Bilingual Evaluation Understudy)', 'boosting', 'bounding box', 'broadcasting', 'bucketing', 'C', 'calibration layer', 'candidate generation', 'candidate sampling', 'categorical data', 'causal language model', 'centroid', 'centroid-based clustering', 'checkpoint', 'class', 'classification model', 'classification threshold', 'Cloud TPU ', 'clustering', ' convex function', ' device', 'empirical risk minimization (ERM)', 'encoder', 'F', 'fairness constraint', 'false positive (FP)', 'feature vectors', 'generative adversarial network (GAN)', 'gradient clipping', 'hinge loss', 'inference', 'in-group bias ', 'IoU', 'labeled example', 'LaMDA (Language Model for Dialogue Applications)', 'lambda', 'linear regression', 'logistic regression', 'Log Loss', 'node (neural network)', 'one-shot learning', 'one-vs.-all']
 }
 
