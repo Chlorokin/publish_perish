@@ -49,7 +49,7 @@ async function levelIntro()
     let text_hash_array = [];
 
     let last_hash = {};
-    last_hash.text = "[Bunch of stuff before this] 'Why don't you try to publish it,' she says. 'You can do it.'";
+    last_hash.text = "[Bunch of stuff before this] 'Why don't you try to publish it,' she tells you, 'You can do it.'";
     last_hash.function = {name:callLevel,args:[1]};
     text_hash_array.push(last_hash);
 
