@@ -4,15 +4,17 @@
 
 
 <title>Publish and Perish</title>
+<h1>Publish and Perish</h1>
 <link rel="stylesheet" type="text/css" href="Publish_and_Perish_files/style.css">
 </head>
 <body>
+<hidden id="level_generic" level=1>
 <div id="container">
 <div id="header">
 <div class="console" id="console">&gt;</div>
 
+<div id="play_area"></div>
             
-<h1>Publish and Perish</h1>
 <div>Papers published: <div total_clicks="0" style="display: inline" id="num_papers">0</div></div>
 <div>Citations: <div total_clicks="0" total_cites="0" style="display: inline" id="num_cites">0</div></div>
 </div>
@@ -22,7 +24,7 @@
 <div id="content"></div>
 
 
-<script>
-main();
-</script>
+<script src="Publish_and_Perish_files/console.js"></script>
+<script src="Publish_and_Perish_files/level_generic.js"></script>
+<script> main();</script>
 </div></body></html>

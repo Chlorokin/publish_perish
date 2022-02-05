@@ -1,14 +1,15 @@
 
 
 
+
+
 function main(){
-    document.getElementById('publish_paper').addEventListener('click', publishPaper);
+    level = document.getElementById('level_generic').attributes.getNamedItem('level').value;
+    callLevel(level);
+    //document.getElementById('publish_paper').addEventListener('click', publishPaper);
 }
 
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
 
 function publishPaper() {
     document.getElementById("console").innerHTML = "";
