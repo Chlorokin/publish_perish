@@ -7,12 +7,15 @@ function createButton(name,id, class_name){
     return button;
 }
 
-function callLevel(level_int){
-    //remove all event listeners
+function removeAllEventListeners() {
     var all_buttons = document.getElementsByClassName("clicker");
     for (var i = 0; i < all_buttons.length; i++) {
         all_buttons[i].removeEventListener("click", function(){});
     }   
+}
+
+function callLevel(level_int){
+    //remove all event listeners
     document.getElementById("play_area").innerHTML = "";
 
 
@@ -43,7 +46,29 @@ async function levelIntro()
         await console_add_text(text_array[i],50);
         await sleep(1200);
     }
-    callLevel(1);
+    let text_hash_array = [];
+    let grad_school = {};
+    grad_school.text = "You graduate from the University of California, Berkeley.";
+    grad_school.function = {name:callLevel,args:[1]};
+    text_hash_array.push(grad_school);
+
+
+    place = 0;
+    function NextText() {
+        removeAllEventListeners()
+        let text_hash = text_hash_array[place];
+        let func_hash = text_hash.function;
+        let func = func_hash.name;
+        let func_args  = func_hash.args;
+        console_add_text(text_hash.text)
+        document.getElementById("level_one_click").addEventListener('click', func(func_args));
+    }
+
+    let play_area_div = document.getElementById("play_area");
+    play_area_div.appendChild(createButton("Apply to grad school", "level_one_click", "clicker"));
+    document.getElementById("level_one_click").addEventListener('click', NextText);
+
+//    callLevel(1);
     }
 
 function levelOne(){
