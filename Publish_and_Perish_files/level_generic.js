@@ -71,13 +71,7 @@ function paperNameGen(){
         return lowerCase.replace(/\w\S*/g, x => x.charAt(0).toUpperCase() + x.substr(1).toLowerCase());
       }
     let ai_term = noun_array[Math.floor(Math.random() * noun_array.length)]
-    //if paper_name starts with a space, remove it
-    if (ai_term.charAt(0) == " "){
-        ai_term = paper_name.substring(1);
-    }
-    
-    // check if ai_term is plural, is so set is_or_are to "are"
-    return titleCase(ai_term) + ", All You Need?";
+    return titleCase(ai_term) + ", All You Need";
     }
 
 function GetTermList(){
