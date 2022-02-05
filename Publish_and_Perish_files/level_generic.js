@@ -80,7 +80,7 @@ function paperNameGen(){
       }
     let ai_term = noun_array[Math.floor(Math.random() * noun_array.length)]
     return titleCase(ai_term) + ", All You Need";
-    }
+}
 
 function GetTermList(){
     return ['A/B testing', 'Accuracy', 'action', 'activation function', 'active learning', 'AdaGrad', 'agent', 'agglomerative clustering', 'anomaly detection', 'AR', 'artificial general intelligence', 'artificial intelligence', 'attention is still', 'attribute', 'AUC (Area under the ROC Curve)', 'augmented reality', 'automation bias ', 'average precision ', 'backpropagation', 'bag of words', 'baseline', 'batch', 'batch normalization', 'batch size', 'Bayesian neural network', 'Bayesian optimization', 'Bellman equation', 'BERT (Bidirectional Encoder Representations from Transformers)', 'bias (ethics/fairness)', 'bias (math)', 'bigram', 'bidirectional', 'bidirectional language model', 'binary classification', 'binning', 'BLEU (Bilingual Evaluation Understudy)', 'boosting', 'bounding box', 'broadcasting', 'bucketing', 'C', 'calibration layer', 'candidate generation', 'candidate sampling', 'categorical data', 'causal language model', 'centroid', 'centroid-based clustering', 'checkpoint', 'class', 'classification model', 'classification threshold', 'Cloud TPU ', 'clustering', ' convex function', ' device', 'empirical risk minimization (ERM)', 'encoder', 'fairness constraint', 'false positive (FP)', 'feature vectors', 'generative adversarial network (GAN)', 'gradient clipping', 'hinge loss', 'inference', 'in-group bias ', 'IoU', 'labeled example', 'LaMDA (Language Model for Dialogue Applications)', 'lambda', 'linear regression', 'logistic regression', 'Log Loss', 'node (neural network)', 'one-shot learning', 'one-vs.-all']

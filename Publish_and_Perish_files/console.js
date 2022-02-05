@@ -1,6 +1,7 @@
 function sleep(ms) {
 	return new Promise(resolve => setTimeout(resolve, ms));
-      }
+}
+
 async function typeWriter(txt) {
         for (let i = 0; i < txt.length; i++) {
             document.getElementById("console").innerHTML += txt.charAt(i);
