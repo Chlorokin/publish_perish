@@ -1,7 +1,6 @@
 
 function main(){
     gameLoop()
-    //document.getElementById('publish_paper').addEventListener('click', publishPaper);
 }
 
 function gameLoop(){

@@ -30,9 +30,9 @@ function levelOne(){
             if (ran_cites == 1) {
                 time_or_times = "time";
             }
-            message = "This paper was cited " + ran_cites +  " " + time_or_times + ".";
+            message = "Your paper (" + paperNameGen() + ") was cited " + ran_cites +  " " + time_or_times + ".";
             }else {
-                message = "This paper was not cited.";
+                message = "Your paper (" + paperNameGen() + ") was not cited.";
                 }
             
         if (num_cites_div.getAttribute('total_cites') === 0){
@@ -41,7 +41,7 @@ function levelOne(){
                 {
                 paper_or_papers = "paper"
                 }
-            message = "No one cares about your " + paper_or_papers + " yet"
+            message = "No one cares about your papers yet"
             }
         else if (num_cites_div.getAttribute('total_cites') > 10){
             message = "Game over: DeepMind made AGI without you. Everyone you love is now dead, including you!!";
@@ -58,3 +58,14 @@ function levelOne(){
     play_area_div.appendChild(createButton("Publish Paper", "publish_paper", "clicker"));
     document.getElementById("publish_paper").addEventListener('click', publishPaper);
 }
+
+
+
+
+function paperNameGen(){
+    let noun_array = ['Transformers', 'Parameters']
+    return noun_array[Math.floor(Math.random() * noun_array.length)] + ",  All You Need";
+
+
+}
+
