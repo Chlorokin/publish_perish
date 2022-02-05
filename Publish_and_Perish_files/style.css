@@ -3,11 +3,22 @@
 .console {
   background-color: #000;
   color: #fff;
-  font-family: monospace;
+  font-family: 'Fira Code', monospace;
   font-size: 14px;
   height: 200px;
   overflow: auto;
   padding: 10px;
   width: 70%;
   
+}
+
+body {
+  font-family: 'Lora', serif;
+  background-color: #000;
+  color: #fff;
+}
+
+button {
+  font-family: 'Lora', serif;
+  border-radius: 0px;
 }
