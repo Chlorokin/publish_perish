@@ -18,9 +18,33 @@ function callLevel(level_int){
 
     let level_array = []
     level_array.push(levelOne);
-    let func = level_array[level_int - 1];
-    func();
+    if (level_int == 0){
+        levelIntro()
+        }else{
+        let func = level_array[level_int - 1];
+        func();
+        }
+
 }
+
+async function levelIntro()
+    {
+    let text_array = [];
+    text_array.push("You ask yourself, 'What is the most important thing to me?'");
+    text_array.push("And to this question, you reply 'Truth and beauty.'");
+    text_array.push("So you study science.");
+    text_array.push("First, biology.");
+    text_array.push("Then, physics.");
+    text_array.push("Then, computer science.");
+    text_array.push("Finally, you start to learn about AI.");
+    text_array.push("And you realize AI is the most important field in all of science.");
+    text_array.push("For AI is the study of intelligence, and it is intelligence that makes all sciences possible.");
+    for (let i = 0; i < text_array.length; i++) {
+        await console_add_text(text_array[i],50);
+        await sleep(1200);
+    }
+    callLevel(1);
+    }
 
 function levelOne(){
     function publishPaper() {
