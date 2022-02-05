@@ -47,10 +47,11 @@ async function levelIntro()
         await sleep(1200);
     }
     let text_hash_array = [];
-    let grad_school = {};
-    grad_school.text = "You graduate from the University of California, Berkeley.";
-    grad_school.function = {name:callLevel,args:[1]};
-    text_hash_array.push(grad_school);
+
+    let last_hash = {};
+    last_hash.text = "[Bunch of stuff before this] 'Why don't you try to publish it,' she says. You can do it.'";
+    last_hash.function = {name:callLevel,args:[1]};
+    text_hash_array.push(last_hash);
 
 
     place = 0;

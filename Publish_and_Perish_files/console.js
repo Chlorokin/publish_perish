@@ -3,6 +3,7 @@ function sleep(ms) {
 }
 
 async function typeWriter(txt,speed_ms) {
+    txt = "> " + txt;
     if (speed_ms === undefined) {
         speed_ms = 1;
     }
