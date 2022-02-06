@@ -4,6 +4,7 @@ function CreateNode(name){
     node.name = name;
     node.degree = 1;
     node.connections = [];
+    node.is_citing = [];
     return node;
 }
 
@@ -14,7 +15,7 @@ function AddNewNode(node_list){
         node_list.push(new_node);
         }
 
-    num_edges = Math.floor(Math.random() * 3) + 1;
+    num_edges = Math.floor(Math.random() * 10) + 1;
     if (num_edges > node_list.length)
         {
         num_edges = node_list.length;
@@ -41,8 +42,9 @@ function AddNewNode(node_list){
         cumulative_probability_array.forEach(function(probability){
         if (ran_num < probability){
             let node_to_add = probability_to_node_hash[probability];
-            new_node.connections.push(node_to_add);
-            new_node.degree++;
+            node_to_add.connections.push(new_node);
+            new_node.is_citing.push(node_to_add);
+            node_to_add.degree++;
             }
         });
     }
@@ -50,17 +52,21 @@ function AddNewNode(node_list){
     return node_list;
 }
 
-function GenerateNodeList(num_papers){
+function GenerateNodeList(){
     let paper_node_list = [];
-    for (let i = 0; i < num_papers; i++){
+    for (let i = 0; i < 50; i++){
+        paper_node_list.push(CreateNode(paperNameGen()));
+    }
+
+    for (let i = 0; i < 1950 ; i++){
         paper_node_list = AddNewNode(paper_node_list);
     }
     return paper_node_list;
 }
 
-async function PaperSiteSimTest(game_state){
+async function PaperCiteSimTest(game_state){
     if (game_state.all_papers_in_word === undefined){
-        game_state.all_papers_in_word = GenerateNodeList(10000);
+        game_state.all_papers_in_word = GenerateNodeList();
         console.log('game_state.all_papers_in_word',game_state.all_papers_in_word);
     }   
     game_state.all_papers_in_word = AddNewNode(game_state.all_papers_in_word);
@@ -68,7 +74,9 @@ async function PaperSiteSimTest(game_state){
     game_state.all_papers_in_word.forEach(function(node){
         test_array.push(node.connections.length);
     });
-    //now we sort test_array highest to lowest
-    test_arrray = test_array.sort(function(a,b){return b-a});
-    console.log('test',test_array.length, test_array)
+
+
+    console.log('test_array',test_array);
+    sorted_test_arrray = test_array.sort(function(a,b){return b-a});
+    console.log('sorted_test_arrray',sorted_test_arrray);
 }

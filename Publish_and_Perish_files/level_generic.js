@@ -41,10 +41,11 @@ function callLevel(level_int,game_state){
 
 async function levelIntro(game_state)
     {
-    //PaperSiteSimTest(game_state);
-    //node_list = game_state.all_papers_in_word;
-    //console.log("node_list",node_list);
-    //return;
+    PaperCiteSimTest(game_state);
+    node_list = game_state.all_papers_in_word;
+    console.log("node_list",node_list);
+
+    return;
     game_state.level = 0;
     let text_array = [];
     text_array.push("You ask yourself, 'What is the most important thing to me?'");
