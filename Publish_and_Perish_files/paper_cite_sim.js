@@ -58,7 +58,7 @@ function GenerateNodeList(num_papers){
     return paper_node_list;
 }
 
-function BarabasiAlbertModel(game_state){
+async function PaperSiteSimTest(game_state){
     if (game_state.all_papers_in_word === undefined){
         game_state.all_papers_in_word = GenerateNodeList(10000);
         console.log('game_state.all_papers_in_word',game_state.all_papers_in_word);
