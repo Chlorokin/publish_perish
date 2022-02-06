@@ -1,5 +1,4 @@
 
-/* Text should appear at the bottom of the box*/
 .console {
   background-color: #000;
   color: #fff;
@@ -21,4 +20,16 @@ body {
 button {
   font-family: 'Lora', serif;
   border-radius: 0px;
+}
+
+/* while box parody of Google Scholarpage*/
+.goosele_scholar{
+  background-color: #000;
+  color: #fff;
+  font-family: 'Lora', serif;
+  font-size: 14px;
+  height: 200px;
+  overflow: auto;
+  padding: 10px;
+  width: 70%;
 }

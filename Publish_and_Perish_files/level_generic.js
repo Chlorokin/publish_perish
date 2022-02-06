@@ -78,8 +78,6 @@ async function levelIntro(game_state)
     let play_area_div = document.getElementById("play_area");
     play_area_div.appendChild(createButton("Apply to grad school", "level_one_click", "clicker"));
     document.getElementById("level_one_click").addEventListener('click', NextText);
-
-//    callLevel(1);
     }
 
 function levelOne(game_state){
