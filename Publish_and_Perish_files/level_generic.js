@@ -36,8 +36,16 @@ function callLevel(level_int,game_state){
 
 }
 
+
+
+
 async function levelIntro(game_state)
     {
+    BarabasiAlbertModel(game_state);
+
+    node_list = game_state.all_papers_in_word;
+    console.log("node_list",node_list);
+    return;
     game_state.level = 0;
     let text_array = [];
     text_array.push("You ask yourself, 'What is the most important thing to me?'");
@@ -63,7 +71,7 @@ async function levelIntro(game_state)
     text_hash_array.push(last_hash);
 
 
-    place = 0;
+    index = 0;
     function NextText() {
         removeAllEventListeners()
         let text_hash = text_hash_array[place];
