@@ -18,7 +18,7 @@ async function main(){
     papers = papers.sort(function(a,b){
         return b.degree - a.degree;
     });
-    game_state.all_papers_in_word = papers; 
+    game_state.all_papers_in_world = papers; 
     callLevel(0,game_state);
     // Now we write some javascript that adds a widget to the top corner
     // that changes the font color betwen white and terminal-emulator green
