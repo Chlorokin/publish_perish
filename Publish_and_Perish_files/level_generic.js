@@ -140,6 +140,7 @@ function levelOne(game_state){
 
 
 function paperNameGen(){
+    // .goose is working on an alternate version of that is not shit
     let noun_array = GetTermList();
     function titleCase(str) {
         const lowerCase = str.toLowerCase();

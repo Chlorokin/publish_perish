@@ -1,3 +1,4 @@
+//Yo, Fleeting, is this right? -- Chlorokin
 
 function createNode(name){
     let node = {};
