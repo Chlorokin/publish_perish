@@ -14,7 +14,7 @@ function main(){
     game_state.level = 0;
     game_state.num_cites = 0;
     game_state.papers_published = {list_of_papers:[]};
-    let papers = GenerateNodeList();
+    let papers = generateNodeList();
     papers = papers.sort(function(a,b){
         return b.degree - a.degree;
     });

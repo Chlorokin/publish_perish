@@ -8,6 +8,7 @@ function createNode(name){
     node.is_citing = [];
     return node;
 }
+// memoize this function
 
 function addNewNode(node_list){
     num_edges = Math.floor(Math.random() * 10) + 1;
@@ -36,7 +37,7 @@ function addNewNode(node_list){
         });
 
 
-    let new_node = CreateNode(paperNameGen());
+    let new_node = createNode(paperNameGen());
 
     const randomFloat = (min, max) => Math.random() * (max - min) + min;
     for (var i = 0; i < num_edges; i++){
@@ -58,10 +59,10 @@ function addNewNode(node_list){
 
 function generateNodeList(){
     let paper_node_list = [];
-    paper_node_list.push(CreateNode(paperNameGen()));
+    paper_node_list.push(createNode(paperNameGen()));
 
     for (let i = 0; i < 10000 ; i++){
-        paper_node_list = AddNewNode(paper_node_list);
+        paper_node_list = addNewNode(paper_node_list);
     }
     return paper_node_list;
 }
