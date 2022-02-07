@@ -60,7 +60,7 @@ async function generateNodeList(){
     let paper_node_list = [];
     paper_node_list.push(createNode(paperNameGen()));
 
-    for (let i = 0; i < 10000 ; i++){
+    for (let i = 0; i < 1000 ; i++){
         paper_node_list = addNewNode(paper_node_list);
     }
     return paper_node_list;
