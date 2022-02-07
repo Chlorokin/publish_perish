@@ -8,13 +8,13 @@ function renderState(game_state){
 }
 
 
-function main(){
+async function main(){
     let game_state = {};
     game_state.citations = 0;
     game_state.level = 0;
     game_state.num_cites = 0;
     game_state.papers_published = {list_of_papers:[]};
-    let papers = generateNodeList();
+    let papers = await generateNodeList();
     papers = papers.sort(function(a,b){
         return b.degree - a.degree;
     });

@@ -56,7 +56,7 @@ function addNewNode(node_list){
     return node_list;
 }
 
-function generateNodeList(){
+async function generateNodeList(){
     let paper_node_list = [];
     paper_node_list.push(createNode(paperNameGen()));
 
