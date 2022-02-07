@@ -37,14 +37,12 @@ function AddNewNode(node_list){
 
     let new_node = CreateNode(paperNameGen());
 
-    let following_if_statement_ran = false;
     const randomFloat = (min, max) => Math.random() * (max - min) + min;
     for (var i = 0; i < num_edges; i++){
         let ran_num = randomFloat(0,highest_probability);
         for (let i = 0; i < cumulative_probability_array.length; i++){
             let probability = cumulative_probability_array[i];
             if (parseFloat(ran_num) >= parseFloat(probability)){
-                following_if_statement_ran = true;
                 let node_to_add = probability_to_node_hash[probability];
                 node_to_add.cited_by.push(new_node);
                 node_to_add.degree++;
