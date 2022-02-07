@@ -124,8 +124,6 @@ function levelOne(game_state){
             document.getElementById("publish_paper").style.display = "none";
              typeWriter(message);
         }else{
-            num_cites_div.innerHTML = num_cites_div.getAttribute('total_cites');
-            num_papers_div.innerHTML = num_papers.attributes.getNamedItem('total_clicks').value;
             renderState(game_state);
             console_add_text(message)
             }
