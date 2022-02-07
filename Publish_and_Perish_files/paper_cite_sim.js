@@ -8,7 +8,6 @@ function createNode(name){
     node.is_citing = [];
     return node;
 }
-// memoize this function
 
 function addNewNode(node_list){
     num_edges = Math.floor(Math.random() * 10) + 1;
