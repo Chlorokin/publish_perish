@@ -72,7 +72,7 @@ async function levelIntro(game_state)
     index = 0;
     function NextText() {
         removeAllEventListeners()
-        let text_hash = text_hash_array[place];
+        let text_hash = text_hash_array[index];
         let func_hash = text_hash.function;
         let func = func_hash.name;
         let func_args  = func_hash.args;
