@@ -1,5 +1,5 @@
 
-function CreateNode(name){
+function createNode(name){
     let node = {};
     node.name = name;
     node.degree = 1;
@@ -8,7 +8,7 @@ function CreateNode(name){
     return node;
 }
 
-function AddNewNode(node_list){
+function addNewNode(node_list){
     num_edges = Math.floor(Math.random() * 10) + 1;
     if (num_edges > node_list.length)
         {
@@ -55,7 +55,7 @@ function AddNewNode(node_list){
     return node_list;
 }
 
-function GenerateNodeList(){
+function generateNodeList(){
     let paper_node_list = [];
     paper_node_list.push(CreateNode(paperNameGen()));
 
