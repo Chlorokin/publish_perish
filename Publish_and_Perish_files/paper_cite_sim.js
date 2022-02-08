@@ -10,7 +10,7 @@ function createNode(name){
 }
 
 function addNewNode(node_list){
-    num_edges = Math.floor(Math.random() * 10) + 1;
+    num_edges = Math.floor(Math.random() * 30) + 1;
     if (num_edges > node_list.length)
         {
         num_edges = node_list.length;
@@ -58,9 +58,11 @@ function addNewNode(node_list){
 
 async function generateNodeList(){
     let paper_node_list = [];
+    for (let i = 0; i < 10; i++){
     paper_node_list.push(createNode(paperNameGen()));
+    }
 
-    for (let i = 0; i < 1000 ; i++){
+    for (let i = 0; i < 10000 ; i++){
         paper_node_list = addNewNode(paper_node_list);
     }
     return paper_node_list;

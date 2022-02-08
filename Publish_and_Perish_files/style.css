@@ -37,6 +37,3 @@ button {
 .gs_nph{
   font: 'Roboto', color rgb(22, 22, 22);
 }
-image{
-  invert()
-}

@@ -56,10 +56,10 @@ async function levelIntro(game_state)
     text_array.push("And you realize AI is the most important field in all of science.");
     text_array.push("As AI is the study of intelligence, and it is intelligence that makes all sciences possible.");
 
-    for (let i = 0; i < text_array.length; i++) {
-        await console_add_text(text_array[i]);
-        await sleep(1200);
-    }
+    //for (let i = 0; i < text_array.length; i++) {
+    //    await console_add_text(text_array[i]);
+    //    await sleep(1200);
+    //}
 
     let text_hash_array = [];
 
@@ -100,7 +100,7 @@ function levelOne(game_state){
         let message = "";
 
         if (Math.random() < 0.4) {
-            let ran_cites = Math.floor(Math.random() * 5) + 1;
+            let ran_cites = Math.floor(Math.random() * 20) + 1;
             game_state.num_cites = parseInt(game_state.num_cites) + parseInt(ran_cites);
             let time_or_times = "times";
             if (ran_cites == 1) {
@@ -139,7 +139,7 @@ function levelOne(game_state){
 
 function paperNameGen(){
     // .goose is working on an alternate version of that is not shit
-    let noun_array = GetTermList();
+    let noun_array = getTermList();
     function titleCase(str) {
         const lowerCase = str.toLowerCase();
     
@@ -149,7 +149,7 @@ function paperNameGen(){
     return titleCase(ai_term) + ", All You Need";
 }
 
-function GetTermList(){
+function getTermList(){
     return ['A/B testing', 'Accuracy', 'action', 'activation function', 'active learning', 'AdaGrad', 'agent', 'agglomerative clustering', 'anomaly detection', 'AR', 'artificial general intelligence', 'artificial intelligence', 'attention is still', 'attribute', 'AUC (Area under the ROC Curve)', 'augmented reality', 'automation bias ', 'average precision ', 'backpropagation', 'bag of words', 'baseline', 'batch', 'batch normalization', 'batch size', 'Bayesian neural network', 'Bayesian optimization', 'Bellman equation', 'BERT (Bidirectional Encoder Representations from Transformers)', 'bias (ethics/fairness)', 'bias (math)', 'bigram', 'bidirectional', 'bidirectional language model', 'binary classification', 'binning', 'BLEU (Bilingual Evaluation Understudy)', 'boosting', 'bounding box', 'broadcasting', 'bucketing', 'C', 'calibration layer', 'candidate generation', 'candidate sampling', 'categorical data', 'causal language model', 'centroid', 'centroid-based clustering', 'checkpoint', 'class', 'classification model', 'classification threshold', 'Cloud TPU ', 'clustering', ' convex function', ' device', 'empirical risk minimization (ERM)', 'encoder', 'fairness constraint', 'false positive (FP)', 'feature vectors', 'generative adversarial network (GAN)', 'gradient clipping', 'hinge loss', 'inference', 'in-group bias ', 'IoU', 'labeled example', 'LaMDA (Language Model for Dialogue Applications)', 'lambda', 'linear regression', 'logistic regression', 'Log Loss', 'node (neural network)', 'one-shot learning', 'one-vs.-all']
 }
 
