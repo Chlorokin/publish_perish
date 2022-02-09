@@ -18,7 +18,7 @@ function turnOnTimeInterval(){
         if ((pause_time_is_a_global_variable == 1)){
             time_is_a_global_variable += 60 
         }
-        else if (time_is_a_global_variable >= 2147483647){
+        if (time_is_a_global_variable >= 2147483647){
             easterEgg()
             clearInterval(myInterval)
         }
