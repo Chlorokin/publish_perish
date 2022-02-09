@@ -1,17 +1,17 @@
 var time_is_a_global_variable = Math.round(+new Date()/1000);
-var pause_time = false
+var pause_time_is_a_global_variable = false
 //every second is equal to 5 hours
 
 function startTime(){
-    pause_time = false;
+    pause_time_is_a_global_variable = false;
     }
 
 function startTime(){
-    pause_time = true;
+    pause_time_is_a_global_variable = true;
     }
 
 setInterval(function(){
-    if (pause_time == false)
+    if (pause_time_is_a_global_variable == false)
     time_is_a_global_variable += 60 
     let date_object = new Date(time_is_a_global_variable * 1000);
     //Now we get the month, day, and year from the date_object
