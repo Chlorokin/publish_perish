@@ -35,7 +35,8 @@ function turnOnTimeInterval(){
         let minute = date_object.getUTCMinutes();
         if (minute < 10){ minute = "0" + minute;}
         let clock_string = hour + ":" + minute;
-        document.getElementById("date_display").innerHTML = new_date + " " + clock_string;
+        document.getElementById("date_display").innerHTML = new_date;
+        document.getElementById("time_display").innerHTML = clock_string;
     }, 10);
 }
 
