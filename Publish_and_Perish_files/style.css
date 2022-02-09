@@ -28,9 +28,19 @@ button {
   font-family: 'Arial', monospace;
   font-size: 14px;
   height: 200px;
-  overflow: auto;
+  overflow: false;
   padding: 10px;
   width: 70%;
+}
+
+.typer{
+  background-color: #000;
+  margin: auto;
+  width: 20%;
+  color: #fff;
+  font-family: 'Arial', monospace;
+  font-size: 7px;
+
 }
 
 /* make text color black*/

@@ -127,11 +127,33 @@ function levelOne(game_state){
             renderState(game_state);
             console_add_text(message)
             }
+    }
+
+    function typing(e){
+
+        distributions = [0, 0.018562456385205862, 0.1282707622298066, 0.16737357259380098, 0.1469435736677116, 0.1720257234726688, 0.15173370319001386, 0.2119032047089601, 0.23775933609958505, 0.22972237343494828, 0.24028268551236748, 0.2855813953488372, 0.2760416666666667, 0.22302158273381295, 0.23148148148148148, 0.286144578313253, 0.2489451476793249, 0.21910112359550563, 0.302158273381295, 0.23711340206185566, 0.35135135135135137, 0.3125, 0.36363636363636365, 0.5714285714285714, 0.5555555555555556, 1.0]
+        commas = [0.0, 0.0, 0.0, 0.045454545454545456, 0.027210884353741496, 0.0979020979020979, 0.12403100775193798, 0.13274336283185842, 0.16326530612244897, 0.25609756097560976, 0.19672131147540983, 0.14285714285714285, 0.19047619047619047, 0.2647058823529412, 0.32, 0.17647058823529413, 0.14285714285714285, 0.25, 0.2222222222222222, 0.14285714285714285, 0.16666666666666666, 0.8, 1.0]
+        text = document.getElementById("typer").innerHTML.replace(/\./g,'')
+        last = text.length - text.lastIndexOf(' ')-1
+
+        if(Math.random()<distributions[last]){
+            text = document.getElementById("typer").innerHTML.replace(/[^ \.]/g,'')
+
+            last = text.length - text.lastIndexOf('.')
+
+            char = Math.random()<commas[last]? '. ': ' ';
+        }else{
+            char = '-';
         }
+        document.getElementById("typer").innerHTML+=char
+
+
+    }
 
     let play_area_div = document.getElementById("play_area");
     play_area_div.appendChild(createButton("Publish Paper", "publish_paper", "clicker"));
     document.getElementById("publish_paper").addEventListener('click', publishPaper);
+    document.addEventListener("keydown", typing);
     renderState(game_state);
 }
 
