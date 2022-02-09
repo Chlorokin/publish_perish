@@ -58,16 +58,19 @@ async function levelIntro(game_state)
   //      await sleep(1200);
   //  }
 
+    return;
     const createStagesObject = () => {
         let object_main = {};
         let stages_array = [];
-        let text_hash = {};
-        text_hash.AddFuction = (func,args_array) => {
-        text_hash.function = func;
-        text_hash.args_array = args_array;
-        };
-        text_hash.AddText= (text) => {text_hash.text = text};
-        object_main.push(text_hash);
+        object_main.AddStage = () => {
+            let stage_hash = {};
+            stage_hash.AddFuction = (func,args_array) => {
+            stage_hash.function = func;
+            stage_hash.args_array = args_array;
+            };
+            text_hash.AddText= (text) => {text_hash.text = text};
+            object_main.stages_array.push(text_hash);
+        }
         object_main.stage_cnt = 0;
         return object_main;
     };
