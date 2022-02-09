@@ -36,7 +36,7 @@ function addNewNode(node_list){
         });
 
 
-    let new_node = createNode(paperNameGen());
+    let new_node = createNode(genPaperName());
 
     const randomFloat = (min, max) => Math.random() * (max - min) + min;
     for (var i = 0; i < num_edges; i++){
@@ -58,11 +58,8 @@ function addNewNode(node_list){
 
 async function generateNodeList(){
     let paper_node_list = [];
-    for (let i = 0; i < 10; i++){
-    paper_node_list.push(createNode(paperNameGen()));
-    }
-
-    for (let i = 0; i < 10000 ; i++){
+    paper_node_list.push(createNode(genPaperName()));
+    for (let i = 0; i < 1000 ; i++){
         paper_node_list = addNewNode(paper_node_list);
     }
     return paper_node_list;
