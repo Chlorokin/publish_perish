@@ -56,10 +56,10 @@ async function levelIntro(game_state)
     text_array.push("And you realize AI is the most important field in all of science.");
     text_array.push("As AI is the study of intelligence, and it is intelligence that makes all sciences possible.");
 
-    //for (let i = 0; i < text_array.length; i++) {
-    //    await console_add_text(text_array[i]);
-    //    await sleep(1200);
-    //}
+    for (let i = 0; i < text_array.length; i++) {
+        await console_add_text(text_array[i]);
+        await sleep(1200);
+    }
 
     let text_hash_array = [];
 
