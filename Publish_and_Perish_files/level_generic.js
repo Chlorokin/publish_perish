@@ -41,9 +41,6 @@ function callLevel(level_int,game_state){
 
 async function levelIntro(game_state)
     {
-    //node_list = game_state.all_papers_in_word;
-    //console.log("node_list",node_list);
-
     game_state.level = 0;
     let text_array = [];
     text_array.push("You ask yourself, 'What is the most important thing to me?'");
@@ -56,18 +53,29 @@ async function levelIntro(game_state)
     text_array.push("And you realize AI is the most important field in all of science.");
     text_array.push("As AI is the study of intelligence, and it is intelligence that makes all sciences possible.");
 
-    //for (let i = 0; i < text_array.length; i++) {
-    //    await console_add_text(text_array[i]);
-    //    await sleep(1200);
-    //}
+  //  for (let i = 0; i < text_array.length; i++) {
+  //      await consoleAddText(text_array[i],50);
+  //      await sleep(1200);
+  //  }
 
-    let text_hash_array = [];
+    const createStagesObject = () => {
+        let object_main = {};
+        let stages_array = [];
+        let text_hash = {};
+        text_hash.AddFuction = (func,args_array) => {
+        text_hash.function = func;
+        text_hash.args_array = args_array;
+        };
+        text_hash.AddText= (text) => {text_hash.text = text};
+        object_main.push(text_hash);
+        object_main.stage_cnt = 0;
+        return object_main;
+    };
 
-    let last_hash = {};
-    last_hash.text = "[Bunch of stuff before this] \"Why don't you try to publish it?\" she asks you. \"You can do it!\"";
-    last_hash.function = {name:callLevel,args:[1,game_state]};
-    text_hash_array.push(last_hash);
-
+    let get_into_grad_school = createStage();
+    get_into_grad_school.AddText("[Bunch of stuff before this] \"Why don't you try to publish it?\" she asks you. \"You can do it!\"");
+    get_into_grad_school.AddFuction(callLevel,[1,game_state]);
+    console.log(text_hash_array);
 
     index = 0;
     function NextText() {
@@ -77,7 +85,7 @@ async function levelIntro(game_state)
         let func = func_hash.name;
         let func_args  = func_hash.args;
         console.log('func args',func_args);
-        console_add_text(text_hash.text)
+        consoleAddText(text_hash.text, game_state)
         document.getElementById("level_one_click").addEventListener('click', func(func_args[0],func_args[1]));
     }
 
@@ -120,6 +128,7 @@ function levelOne(game_state){
             message = "No one cares about your papers yet"
             }
         else if (game_state.num_cites > 10){
+            renderState(game_state);
             message = "Game over: DeepMind made AGI without you. Everyone you love is now dead, including you!!";
             document.getElementById("publish_paper").style.display = "none";
              typeWriter(message);

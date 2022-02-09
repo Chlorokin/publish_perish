@@ -1,9 +1,8 @@
 
 function renderState(game_state){
-    let total_papers = game_state.papers_published.list_of_papers.length;
-    document.getElementById("num_papers").innerHTML = total_papers;
-    let num_cites = game_state.num_cites;
-    document.getElementById("num_cites").innerHTML = num_cites;
+    document.getElementById("num_papers").innerHTML = game_state.papers_published.list_of_papers.length;
+    document.getElementById("num_cites").innerHTML = game_state.num_cites;
+    game_state.time_step++;
 }
 
 
@@ -13,6 +12,8 @@ async function main(){
     game_state.level = 0;
     game_state.num_cites = 0;
     game_state.papers_published = {list_of_papers:[]};
+    game_state.console_window_array = [];
+    game_state.time_step = 0
     //let papers = await generateNodeList();
     //papers = papers.sort(function(a,b){
     //    return b.degree - a.degree;
