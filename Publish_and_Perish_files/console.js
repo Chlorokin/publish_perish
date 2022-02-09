@@ -26,7 +26,8 @@ function changeDisplayAllClickers(display_type){
 
 async function  console_add_text(txt,speed_ms){
     //select all elements with class clicker and hide them
-    document.getElementById("console").innerHTML = ""; 
+    document.getElementById("console").innerHTML =  document.getElementById("console").innerHTML.split("<br>").slice(-6).join("<br>") + "<br>"
+
     var x = document.getElementsByClassName("clicker");
     for (i = 0; i < x.length; i++) {
         x[i].style.display = "none";

@@ -93,7 +93,6 @@ function levelOne(game_state){
 
     function publishPaper() {
         let paper_name = genPaperName()
-        document.getElementById("console").innerHTML = "";
         game_state.papers_published.list_of_papers.push(paper_name);
         var num_cites_div = document.getElementById('num_cites');
     
@@ -123,7 +122,7 @@ function levelOne(game_state){
         else if (game_state.num_cites > 10){
             message = "Game over: DeepMind made AGI without you. Everyone you love is now dead, including you!!";
             document.getElementById("publish_paper").style.display = "none";
-             typeWriter(message);
+            console_add_text(message);
         }else{
             renderState(game_state);
             console_add_text(message)
