@@ -1,5 +1,5 @@
 var time_is_a_global_variable = Math.round(+new Date()/1000);
-var pause_time_is_a_global_variable = false
+var pause_time_is_a_global_variable = true
 
 function startTime(){
     pause_time_is_a_global_variable = false;
@@ -9,17 +9,15 @@ function stopTime(){
     pause_time_is_a_global_variable = true;
     }
 
-function Singularity(){
-    /// replace this with easter egg, unix rollover singularity level
-    alert('Unix time overflow. You have reached the singularity. You have been terminated.');
+function easterEgg(){
+    /// add a call to a easter egg, unix rollover  level
 }
 
-function StartTime(){ 
+function turnOnTimeInterval(){ 
     var myInterval  = setInterval(function(){
         if (pause_time_is_a_global_variable == false)
-        if (time_is_a_global_variable >= 2147483647)
-            {
-            Singularity();
+        if (time_is_a_global_variable >= 2147483647){
+            easterEgg()
             clearInterval(myInterval)
         }
         time_is_a_global_variable += 60 
@@ -48,7 +46,8 @@ function renderState(game_state){
 
 
 async function main(){
-     StartTime()
+    turnOnTimeInterval();
+    startTime()
     let game_state = {};
     game_state.citations = 0;
     game_state.level = 0;
