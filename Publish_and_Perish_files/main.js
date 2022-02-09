@@ -1,4 +1,4 @@
-var time_is_a_global_variable = Math.round(+new Date()/1000);
+var time_is_a_global_variable = Math.round((new Date()).getTime() / 1000);
 var pause_time_is_a_global_variable = 0;
 
 function startTime(){
