@@ -1,12 +1,12 @@
 var time_is_a_global_variable = Math.round(+new Date()/1000);
-var pause_time_is_a_global_variable = true
+var pause_time_is_a_global_variable = 0;
 
 function startTime(){
-    pause_time_is_a_global_variable = false;
+    pause_time_is_a_global_variable = 1;
     }
 
 function stopTime(){
-    pause_time_is_a_global_variable = true;
+    pause_time_is_a_global_variable = 0;
     }
 
 function easterEgg(){
@@ -15,12 +15,13 @@ function easterEgg(){
 
 function turnOnTimeInterval(){ 
     var myInterval  = setInterval(function(){
-        if (pause_time_is_a_global_variable == false)
-        if (time_is_a_global_variable >= 2147483647){
+        if ((pause_time_is_a_global_variable == 1)){
+            time_is_a_global_variable += 60 
+        }
+        else if (time_is_a_global_variable >= 2147483647){
             easterEgg()
             clearInterval(myInterval)
         }
-        time_is_a_global_variable += 60 
         let date_object = new Date(time_is_a_global_variable * 1000);
         //Now we get the month, day, and year from the date_object
         let month = date_object.getUTCMonth() + 1; //months from 1-12
@@ -47,7 +48,6 @@ function renderState(game_state){
 
 async function main(){
     turnOnTimeInterval();
-    startTime()
     let game_state = {};
     game_state.citations = 0;
     game_state.level = 0;

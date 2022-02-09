@@ -61,6 +61,7 @@ async function levelIntro(game_state)
         await sleep(1200);
     }
 
+    startTime()
     let text_hash_array = [];
 
     let last_hash = {};
