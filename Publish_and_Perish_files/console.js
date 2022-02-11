@@ -24,16 +24,7 @@ function changeDisplayAllClickers(display_type){
     }   
 }
 
-async function  consoleAddText(txt,speed_ms,game_state){
-    //select all elements with class clicker and hide them
-    document.getElementById("console").innerHTML = ""; 
-    changeDisplayAllClickers("none");
-    await typeWriter(txt,speed_ms);
-    changeDisplayAllClickers("inline");
-}
-
-async function  console_add_text(txt,speed_ms){
-    alert("WHO THE FUCK IS RUNNING ME, KILL THEM!")
+async function  consoleAddText(txt,speed_ms){
     //select all elements with class clicker and hide them
     document.getElementById("console").innerHTML =  document.getElementById("console").innerHTML.split("<br>").slice(-6).join("<br>") + "<br>"
 

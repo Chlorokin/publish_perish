@@ -1,5 +1,64 @@
 
-function createButton(name,id, class_name){
+function createStagesObject(game_state, calling_stage) {
+    let object_main = {};
+    object_main.calling_stage = calling_stage;
+    object_main.sub_stages_array = [];
+    object_main.game_state = game_state;
+    object_main.default_console_speed = 1000;
+    object_main.default_console_type_speed = 30;
+    object_main.AddWinCondition = function(win_condition_function){
+        this.win_condition_function = win_condition_function;
+    }
+    object_main.SetDefaultConsoleSpeed = function(speed){
+        this.default_console_speed = speed;
+    };
+    object_main.SetDefaultConsoleTypeSpeed = function(speed){
+        //speed of delay as each character is typed
+        this.default_console_type_speed = speed;
+    };
+
+    object_main.AddStage = (title) => {
+        let stage_hash = {};
+        stage_hash.sub_stages_array = [];
+        stage_hash.AddSubStage = () => {
+            stage_hash.sub_stages_array.push(createStagesObject(this.game_state));
+        };
+        stage_hash.clicker_array = [];
+        stage_hash.advancement_predicate_array = [];
+        stage_hash.PushAdvancementPredicate = (predicate) => {
+            stage_hash.advancement_predicate_array.push(predicate);
+        };
+        stage_hash.narrative_array = [];
+        stage_hash.AddFuction = (func,args_array) => {
+        stage_hash.title = title;
+        stage_hash.function = func;
+        stage_hash.args_array = args_array;
+        };
+        stage_hash.AddNarrativeText = (text,speed,type_speed) => {
+        console_speed = speed || object_main.default_console_speed;
+        console_type_speed = type_speed || object_main.default_console_type_speed;
+        stage_hash.narrative_array.push({text:text,console_speed: console_speed,console_type_speed: console_type_speed,});
+        };
+        stage_hash.AddText = (text) => {stage_hash.text = text};
+        object_main.sub_stages_array.push(stage_hash);
+        return stage_hash;
+        }
+    object_main.stage_cnt = 0;
+    return object_main;
+}
+
+async function PlayStagesObject(stage_object){
+    for (let i = 0; i < stage_object.sub_stages_array.length; i++) {  
+        let sub_stage = stage_object.sub_stages_array[i];
+        for (let i = 0; i < sub_stage.narrative_array.length; i++){
+            let narrative_hash = sub_stage.narrative_array[i];
+            await consoleAddText(narrative_hash.text, narrative_hash.console_type_speed);
+            await sleep(narrative_hash.console_speed);
+        }
+    }
+ }
+
+function createButton(name,id,class_name){
     var button = document.createElement("button");
     button.innerHTML = name;
     button.id = id;
@@ -43,37 +102,26 @@ async function levelIntro(game_state)
     {
     game_state.level = 0;
     let text_array = [];
-    text_array.push("You ask yourself, 'What is the most important thing to me?'");
-    text_array.push("And you think it is truth.");
-    text_array.push("So you study science.");
-    text_array.push("First, biology.");
-    text_array.push("Then, physics.");
-    text_array.push("Then, computer science.");
-    text_array.push("Finally, AI.");
-    text_array.push("And you realize AI is the most important field in all of science.");
-    text_array.push("As AI is the study of intelligence, and it is intelligence that makes all sciences possible.");
 
-    for (let i = 0; i < text_array.length; i++) {
-        await consoleAddText(text_array[i],50);
-        await sleep(1200);
-    }
+    let stages_object = createStagesObject();
+    let intro = stages_object.AddStage("Intro");
+    intro.AddNarrativeText('You ask yourself, "What is the most important thing to me?"');
+    intro.AddNarrativeText("And you think it is truth.");
+    intro.AddNarrativeText("So you study science.");
+    intro.AddNarrativeText("First, biology.");
+    intro.AddNarrativeText("Then, physics.");
+    intro.AddNarrativeText("Then, computer science.");
+    intro.AddNarrativeText("Finally, AI.");
+    intro.AddNarrativeText("And you realize AI is the most important field in all of science.");
+    intro.AddNarrativeText("As AI is the study of intelligence, and it is intelligence that makes all sciences possible.");
+
+    await PlayStagesObject(stages_object);
+
 
     return;
-    const createStagesObject = () => {
-        let object_main = {};
-        let stages_array = [];
-        object_main.AddStage = () => {
-            let stage_hash = {};
-            stage_hash.AddFuction = (func,args_array) => {
-            stage_hash.function = func;
-            stage_hash.args_array = args_array;
-            };
-            text_hash.AddText= (text) => {text_hash.text = text};
-            object_main.stages_array.push(text_hash);
-        }
-        object_main.stage_cnt = 0;
-        return object_main;
-    };
+    let apply_to_grad_school = stages_object.AddStage('Intro');
+
+    return;
     for (let i = 0; i < text_array.length; i++) {
         await console_add_text(text_array[i]);
         await sleep(1200);
