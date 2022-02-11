@@ -53,10 +53,10 @@ async function levelIntro(game_state)
     text_array.push("And you realize AI is the most important field in all of science.");
     text_array.push("As AI is the study of intelligence, and it is intelligence that makes all sciences possible.");
 
-  //  for (let i = 0; i < text_array.length; i++) {
-  //      await consoleAddText(text_array[i],50);
-  //      await sleep(1200);
-  //  }
+    for (let i = 0; i < text_array.length; i++) {
+        await consoleAddText(text_array[i],50);
+        await sleep(1200);
+    }
 
     return;
     const createStagesObject = () => {
@@ -74,6 +74,17 @@ async function levelIntro(game_state)
         object_main.stage_cnt = 0;
         return object_main;
     };
+    for (let i = 0; i < text_array.length; i++) {
+        await console_add_text(text_array[i]);
+        await sleep(1200);
+    }
+
+    startTime()
+    let text_hash_array = [];
+
+    let last_hash = {};
+    last_hash.text = "[Bunch of stuff before this] \"Why don't you try to publish it?\" she asks you. \"You can do it!\"";
+    last_hash.function = {name:callLevel,args:[1,game_state]};
 
     let get_into_grad_school = createStage();
     get_into_grad_school.AddText("[Bunch of stuff before this] \"Why don't you try to publish it?\" she asks you. \"You can do it!\"");
@@ -103,7 +114,6 @@ function levelOne(game_state){
 
     function publishPaper() {
         let paper_name = genPaperName()
-        document.getElementById("console").innerHTML = "";
         game_state.papers_published.list_of_papers.push(paper_name);
         var num_cites_div = document.getElementById('num_cites');
     
@@ -134,7 +144,7 @@ function levelOne(game_state){
             renderState(game_state);
             message = "Game over: DeepMind made AGI without you. Everyone you love is now dead, including you!!";
             document.getElementById("publish_paper").style.display = "none";
-             typeWriter(message);
+            console_add_text(message);
         }else{
             renderState(game_state);
             console_add_text(message)
