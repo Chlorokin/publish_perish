@@ -16,7 +16,7 @@ function easterEgg(){
 function turnOnTimeInterval(){ 
     var myInterval  = setInterval(function(){
         if ((pause_time_is_a_global_variable == 1)){
-            time_is_a_global_variable += 60 
+            time_is_a_global_variable += 600 
         }
         if (time_is_a_global_variable >= 2147483647){
             easterEgg()
