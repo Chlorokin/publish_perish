@@ -155,6 +155,8 @@ function levelOne(game_state){
                 char = '-';
             }
 
+            document.getElementById('typer').innerHTML += char
+
         }
 
 
@@ -164,7 +166,6 @@ function levelOne(game_state){
     play_area_div.appendChild(createButton("Publish Paper", "publish_paper", "clicker"));
     document.getElementById("publish_paper").addEventListener('click', publishPaper);
     document.addEventListener("keydown", typing);
-    // setInterval(typing,1)
     var paper_name = genPaperName()
     renderState(game_state);
 }
