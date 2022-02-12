@@ -1,4 +1,5 @@
 //Yo, Fleeting, is this right? -- Chlorokin
+//Seems alright. Maybe let the the range of network sizes vary by level? -Fleeting/Algon33
 
 function createNode(name){
     let node = {};
