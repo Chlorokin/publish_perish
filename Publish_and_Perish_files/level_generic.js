@@ -1,3 +1,34 @@
+async function CreateNarrativeTextObject(){
+    let object = {};
+    object.narrative_array = [];
+    object.AddNarrativeText = (text, console_type_speed, console_speed) => {
+        console_speed = console_speed || 1000;
+        console_type_speed = console_type_speed || 10;
+        object.narrative_array.push({text:text, console_type_speed:console_type_speed, console_speed:console_speed});
+    }
+    object.PlayText = async function(){await PlayNarrativeTextObject(object)};
+    return object;
+}
+
+async function PlayNarrativeTextObject(narrative_object){
+    let narrative_array  =  narrative_object.narrative_array;
+    for (let i = 0; i < narrative_array.length; i++){
+        let narrative_hash = narrative_array[i];
+        await consoleAddText(narrative_hash.text, narrative_hash.console_type_speed);
+        await sleep(narrative_hash.console_speed);
+     }
+}
+
+CreateLevelObject = function(level_int, game_state){
+    let object = {};
+    object.level_int = level_int;
+    object.stages_array = [];
+    object.AddAdvancementPredicate = (predicate) => {
+        object.stages_array.push({predicate:predicate, stage_int:object.stages_array.length});
+    }
+
+
+}
 
 function createButton(name,id, class_name){
     var button = document.createElement("button");
@@ -15,7 +46,6 @@ function removeAllEventListeners() {
 }
 
 function callLevel(level_int,game_state){
-    console.log("18",game_state);
     if (game_state === undefined) {
         alert('game_state is undefined');
         console.log("game_state is undefined");
@@ -41,69 +71,82 @@ function callLevel(level_int,game_state){
 
 async function levelIntro(game_state)
     {
-    game_state.level = 0;
-    let text_array = [];
-    text_array.push("You ask yourself, 'What is the most important thing to me?'");
-    text_array.push("And you think it is truth.");
-    text_array.push("So you study science.");
-    text_array.push("First, biology.");
-    text_array.push("Then, physics.");
-    text_array.push("Then, computer science.");
-    text_array.push("Finally, AI.");
-    text_array.push("And you realize AI is the most important field in all of science.");
-    text_array.push("As AI is the study of intelligence, and it is intelligence that makes all sciences possible.");
+    let play_area_div = document.getElementById("play_area");
+    let text_object = await CreateNarrativeTextObject();
+    text_object.AddNarrativeText("You ask yourself, \"What is the purpose of my life?\"");
+    text_object.AddNarrativeText("And you decide it is to find truth.");
+    text_object.AddNarrativeText("So you study science.");
+    text_object.AddNarrativeText("First, biology.");
+    text_object.AddNarrativeText("Then, physics.");
+    text_object.AddNarrativeText("Then, computer science.");
+    text_object.AddNarrativeText("Finally, AI.");
+    text_object.AddNarrativeText("And you realize AI is the most important field in all of science.");
+    text_object.AddNarrativeText("As AI is the study of intelligence, and it is intelligence that makes all sciences possible.");
+    await text_object.PlayText();
 
-    for (let i = 0; i < text_array.length; i++) {
-        await consoleAddText(text_array[i],50);
-        await sleep(1200);
+    let essay_cnt = 1
+    async function WriteApplication() {
+        //remove the button with the id apply_to_grad
+        let text_object = await CreateNarrativeTextObject();
+        document.getElementById("apply_to_grad").removeEventListener('click',WriteApplication);
+        document.getElementById("apply_to_grad").remove();
+        let time = 10 * 10000;
+        text_object.AddNarrativeText("You better start typing out your application.",null,1000);
+        text_object.AddNarrativeText("You know how to type right?",null,1000);
+        text_object.AddNarrativeText("You just have to keep hitting keys, it will come out fine.",null,1000);
+        text_object.PlayText();
+        let typer_object = createTyperObject(game_state);
+        typer_object.OverridePaperTitle("How I overcame adversity and plan to change the world for the better with ML")
+        typer_object.AddFinishedFunction(function(){essay_cnt++
+            Rejection();
+        });
+        typer_object.AddTyper(game_state);
     }
+    async function Rejection()
+        {
+        document.getElementById('console').innerHTML = "";
+        let text_object = await CreateNarrativeTextObject();
+        text_object.AddNarrativeText("Thank you for your interest in our program. We regret to inform you that imposter syndrome is not a syndrome if you are actually an imposter. Your academic record is an embarrassment, and, frankly, we feel you have not overcome enough adversity.")
+        text_object.AddNarrativeText("We hope our firm rejection will be taken as a hardship you can overcome, and perhaps even mention in your application essays to other, lesser schools.");
+        await text_object.PlayText();
+        play_area_div.appendChild(createButton("Apply to different grad school", "apply_to_grad", "clicker"));
+//        document.getElementById("write_gain").addEventListener('click',));
+        }
+    play_area_div.appendChild(createButton("Apply to grad school", "apply_to_grad", "clicker"));
+    document.getElementById("apply_to_grad").addEventListener('click', WriteApplication);
+    return;
+    //play_area_div.appendChild();
+    //startTime();
+//    play_area_div.appendChild(createButton("Publish Paper", "publish_paper", "clicker"));
+//    document.getElementById("publish_paper").addEventListener('click', publishPaper);
+    //document.addEventListener("keydown", typing);
+    let stages_array = [];
+
+    let grad_school_test = {}
+    grad_school.game_state = game_state;
+    grad_school.AdvancementPredicate = function(){return game_state.papers_published == 10};
+    text_object = CreateNarrativeTextObject();
+    grad_school_test.text_object = text_object;
+    stages_array.push(grad_school_test);
+
 
     return;
-    const createStagesObject = () => {
-        let object_main = {};
-        let stages_array = [];
-        object_main.AddStage = () => {
-            let stage_hash = {};
-            stage_hash.AddFuction = (func,args_array) => {
-            stage_hash.function = func;
-            stage_hash.args_array = args_array;
-            };
-            text_hash.AddText= (text) => {text_hash.text = text};
-            object_main.stages_array.push(text_hash);
-        }
-        object_main.stage_cnt = 0;
-        return object_main;
-    };
-    for (let i = 0; i < text_array.length; i++) {
-        await console_add_text(text_array[i]);
-        await sleep(1200);
-    }
 
-    startTime()
-    let text_hash_array = [];
-
-    let last_hash = {};
-    last_hash.text = "[Bunch of stuff before this] \"Why don't you try to publish it?\" she asks you. \"You can do it!\"";
-    last_hash.function = {name:callLevel,args:[1,game_state]};
-
-    let get_into_grad_school = createStage();
-    get_into_grad_school.AddText("[Bunch of stuff before this] \"Why don't you try to publish it?\" she asks you. \"You can do it!\"");
-    get_into_grad_school.AddFuction(callLevel,[1,game_state]);
-    console.log(text_hash_array);
+    let grad_school_text = await CreateNarrativeTextObject();
+    text_object.AddNarrativeText("");
 
     index = 0;
-    function NextText() {
-        removeAllEventListeners()
-        let text_hash = text_hash_array[index];
-        let func_hash = text_hash.function;
-        let func = func_hash.name;
-        let func_args  = func_hash.args;
-        console.log('func args',func_args);
-        consoleAddText(text_hash.text, game_state)
-        document.getElementById("level_one_click").addEventListener('click', func(func_args[0],func_args[1]));
-    }
+ //   function NextText() {
+ //       removeAllEventListeners()
+ //       let text_hash = text_hash_array[index];
+ //       let func_hash = text_hash.function;
+ //       let func = func_hash.name;
+ //       let func_args  = func_hash.args;
+ //       console.log('func args',func_args);
+ //       consoleAddText(text_hash.text)
+ //       document.getElementById("level_one_click").addEventListener('click', func(func_args[0],func_args[1]));
+ //   }
 
-    let play_area_div = document.getElementById("play_area");
     play_area_div.appendChild(createButton("Apply to grad school", "level_one_click", "clicker"));
     document.getElementById("level_one_click").addEventListener('click', NextText);
     }
@@ -139,132 +182,63 @@ function levelOne(game_state){
             message = "No one cares about your papers yet"
             }
         else if (game_state.num_cites > 10){
-            renderState(game_state);
             message = "Game over: DeepMind made AGI without you. Everyone you love is now dead, including you!!";
             document.getElementById("publish_paper").style.display = "none";
-            console_add_text(message);
+            consoleAddText(message);
+            sleep(2000);
         }else{
             renderState(game_state);
-            console_add_text(message)
+            consoleAddText(message);
             }
         var paper_name = genPaperName()
         game_state.papers_published.list_of_papers.push(paper_name);
     }
-
-    function typing(e){
-
-        length = document.getElementById('typer_title').innerHTML.length
-
-        if(length != paper_name.length){
-            document.getElementById('typer_title').innerHTML+=paper_name[length]
-        }else {
-            distributions = [0, 0.018562456385205862, 0.1282707622298066, 0.16737357259380098, 0.1469435736677116, 0.1720257234726688, 0.15173370319001386, 0.2119032047089601, 0.23775933609958505, 0.22972237343494828, 0.24028268551236748, 0.2855813953488372, 0.2760416666666667, 0.22302158273381295, 0.23148148148148148, 0.286144578313253, 0.2489451476793249, 0.21910112359550563, 0.302158273381295, 0.23711340206185566, 0.35135135135135137, 0.3125, 0.36363636363636365, 0.5714285714285714, 0.5555555555555556, 1.0]
-            commas = [0.0, 0.0, 0.0, 0.045454545454545456, 0.027210884353741496, 0.0979020979020979, 0.12403100775193798, 0.13274336283185842, 0.16326530612244897, 0.25609756097560976, 0.19672131147540983, 0.14285714285714285, 0.19047619047619047, 0.2647058823529412, 0.32, 0.17647058823529413, 0.14285714285714285, 0.25, 0.2222222222222222, 0.14285714285714285, 0.16666666666666666, 0.8, 1.0]
-
-            doc = document.getElementById("typer").innerHTML
-
-            text = doc.replace(/\./g, '')
-            last = text.length - text.lastIndexOf(' ') - 1
-
-
-            if (Math.random() < distributions[last]) {
-                text = doc.replace(/[^ \.]/g, '')
-
-                last = text.length - text.lastIndexOf('.')
-
-                char = Math.random() < commas[last] ? '. ' : ' ';
-            } else {
-                char = '-';
-            }
-
-            document.getElementById('typer').innerHTML += char
-
-        }
-
-
-    }
-
-    let play_area_div = document.getElementById("play_area");
-    play_area_div.appendChild(createButton("Publish Paper", "publish_paper", "clicker"));
-    document.getElementById("publish_paper").addEventListener('click', publishPaper);
-    document.addEventListener("keydown", typing);
-    var paper_name = genPaperName()
     renderState(game_state);
 }
 
-function sampleArray(array) {
-    return array[Math.floor(Math.random() * array.length)];
-}
+function createStagesObject_remove(game_state, calling_stage) { 
+    let stage_hash = {};
+    stage_hash.calling_stage = calling_stage;
+    stage_hash.sub_stages_array = [];
+    stage_hash.game_state = game_state;
+    stage_hash.default_console_speed = 1000;
+    stage_hash.default_console_type_speed = 30;
 
-function genAIterm(){
-    let terms = ['Goose','A/B testing', 'Accuracy', 'actions', 'activation functions', 'active learning', 'AdaGrad', 'agents', 'agglomerative clustering', 'anomaly detection', 'AR', 'artificial general intelligence', 'artificial intelligence', 'artificial goose intelligence', 'attention', 'attributes', 'AUC (Area under the ROC Curve)', 'augmented reality', 'automation bias', 'average precision', 'backpropagation', 'bag of words', 'baselines', 'batches', 'batch normalization', 'batch sizes', 'Bayesian neural networks', 'Bayesian optimization', 'Bellman equations', 'BERT (Bidirectional Encoder Representations from Transformers)', 'bias (ethics/fairness)', 'bias (math)', 'bigrams', 'bidirectional encoders', 'bidirectional language models', 'large language models', 'language models', 'Parameters', 'Money','the aaaaaapill', 'binary classification', 'binning', 'BLEU (Bilingual Evaluation Understudy)', 'boosting', 'bounding box', 'broadcasting', 'bucketing', 'C', 'calibration layers', 'candidate generation', 'candidate sampling', 'categorical data', 'causal language models', 'centroid', 'centroid-based clustering', 'checkpoints', 'classes', 'classification models', 'classification thresholds', 'Cloud TPUs', 'clustering', 'convex functions', 'devices', 'empirical risk minimization (ERM)', 'encoders', 'fairness constraints', 'false positives (FP)', 'feature vectors', 'generative adversarial networks (GAN)', 'gradient clipping', 'hinge loss', 'inference', 'in-group bias', 'IoU', 'labeled example', 'LaMDA (Language Model for Dialogue Applications)', 'lambda', 'linear regression', 'logistic regression', 'Log Loss', 'nodes (neural network)', 'one-shot learning', 'one-vs.-all', 'catgirls', 'a catgirl', 'geese', 'goosegirls','recurrent neural networks','LSTM networks','evolutionary algorithms','transformers','Nonsense AI paper titles','parameters','metaoptimizers','random forest autoencoders','crowdsourced annotated datasets','3e-4 as a learning rate','humans','crabs','random seed optimization','agent-based modelling',"Maxwell's Demon"];
-    return sampleArray(terms);
-}
+    stage_hash.AddGamePlayFunction = function(function_name) {
+        this.game_play_function = function_name;
+    };
 
-function genProblemName(){
-    let problems = ['Magic: The Gathering','tic-tac-toe','chess','go','the N-queens problem','natural language processing','catgirls','planetary accretion','the elongated orbits of Kuiper belt objects',"the Sun's magnetic field",'goose breed classification','world hunger','systemic risks','space weather','p-nuclei','the Higgs Boson','the internal structure of black holes','goosegirls','AI waifus','the Final Parsec Problem','dark matter','dark energy','the size of the universe','the shape of the universe','the Horizon Problem','extraterrestrial life','cosmic inflation','the origin of life','the origin of viruses','the development of the brain','the Golgi apparatus','protein folding','the mechanism action of drugs','protein design','gene editing','the origin of blood types','the existence of human sex pheromones','the biological function of sleep','the plastic nature of the brain','the reward functions of the brain','free will','consciousness','language','the storage of memories in the brain','the origin of goose','flocking','goose migration','the ovaries of basking sharks','biosynthesis of molecules','P versus NP','one-way functions','the halting problem','polynomial integer factorization','clustered planar drawings','parity games','X + Y sorting','linear programming','the Cambridge capital controversy','revealed preference','the Equity premium puzzle','the Dividend puzzle','the Black-Scholes model','the Formalist-substantivist debate','the Enigma code','the capacity of a Network','the capacity of the broadcast channel','quantum capacity','the capacity of a two-way channel',"Hilbert's problems","Landau's problems","Taniyama's problems","Millenium Prize problems","the Navier-Stokes existence and smoothness",'the Riemman hypothesis',"Lehmer's conjecture",'the convergence of Flint Hills series','sudoku',"Conway's 99-graph problem","the Fermat-Catalan conjecture",'the Goldbach conjecture','systematic errors','Meta-analysis','Multiple comparsions','Bayesian statistics','the Doomsday argument','Anthropic arguments','quantum gravity','the Vacuum catastrophe','Supersymmetry','self-driving','object detection','object classification','computer vision','AI boxing','robotics','weather forecasting','market predictions','high frequency trading','nomadic goat herders','fashion design','metaoptimization','unsupervised learning','shape rotation capabilities','automated code generation','AI-assisted writing','automated theorem proving','face recognition','style transfer','art generation',"Maxwell's Demon"]
-    return sampleArray(problems);
-}
+    stage_hash.SetDefaultConsoleSpeed = function(speed){
+        this.default_console_speed = speed;
+    };
+    stage_hash.SetDefaultConsoleTypeSpeed = function(speed){
+        //speed of delay as each character is typed
+        this.default_console_type_speed = speed;
+    };
 
-function genPaperName(){
-    let papernameGenerators = [
-        () => { return "An investigation into " + genAIterm() },
-        () => { return "An investigation into " + genAIterm() + " as a way to solve " + genProblemName() },
-        () => { return "Scaling laws for " + genAIterm() },
-        () => { return "Scaling laws for " + genAIterm() + " in the context of " + genProblemName() },
-        () => { return "A study of " + genAIterm() + " in " + genProblemName() },
-        () => { return "Prediction of the optimal " + genAIterm() },
-        () => { return "Prediction of the optimal " + genAIterm() + " applied to " + genProblemName() },
-        () => { return "Transfer learning for " + genAIterm() },
-        () => { return "Transfer learning for " + genAIterm() + " derived from " + genAIterm() },
-        () => { return "On the unreasonable effectiveness of " + genAIterm() },
-        () => { return "On the unreasonable effectiveness of " + genAIterm() + " for solving " + genProblemName() },
-        () => { return "Anomaly detection using " + genAIterm() },
-        () => { return "Anomaly detection using " + genAIterm() + " in the context of " + genProblemName() },
-        () => { return "A comparative analysis of " + genAIterm() },
-        () => { return "A comparative analysis of " + genAIterm() + " within the " + genProblemName() + " framework" },
-        () => { return "On the impossibility of " + genAIterm() },
-        () => { return "Optimizing the " + genAIterm() + " by treating it as " + genAIterm() },
-        () => { return "Optimizing the " + genAIterm() + " for solving " + genProblemName() },
-        () => { return "Distributed training of " + genAIterm() },
-        () => { return "Distributed training of " + genAIterm() + " for solving " + genProblemName() },
-        () => { return "Optimal results for " + genProblemName() },
-        () => { return "A theoretical framework for " + genAIterm() },
-        () => { return "Ending world hunger with " + genAIterm() },
-        () => { return "Ending world hunger with " + genAIterm() + " by using the lessons learned from solving " + genProblemName() },
-        () => { return "A survey of the " + genAIterm() },
-        () => { return "Making " + genAIterm() + " go brrrrr: A First Principles Approach" },
-        () => { return genProblemName() + " and why " + genAIterm() + " is the best way to solve it" },
-        () => { return genProblemName() + " and why " + genAIterm() + " is not enough to solve it" },
-        () => { return "From reinforcement learning to " + genAIterm() },
-        () => { return "The use of " + genAIterm() + " to solve " + genProblemName() },
-        () => { return "Designing resilient architectures with " + genAIterm() },
-        () => { return "Trancending the " + genAIterm() },
-        () => { return "Trancending from " + genAIterm() + " to " + genAIterm() },
-        () => { return "A philosophical treatise on " + genAIterm() },
-        () => { return "Predicting the optimal solution for " + genProblemName() },
-        () => { return "Network analysis of " + genAIterm() },
-        () => { return "Training " + genAIterm() + " for solving " + genProblemName() },
-        () => { return "Learning to recognize " + genAIterm() },
-        () => { return "Improving performance in " + genProblemName() },
-        () => { return "Anomaly detection in " + genProblemName() },
-        () => { return genAIterm() + " is all you need" },
-        () => { return genAIterm() + " considered harmful" },
-        () => { return genAIterm() + " is a new way to solve " + genProblemName() },
-        () => { return genAIterm() + ": is more parameters always better?" },
-        () => { return genAIterm() + ": is it the best we can do?" },
-        () => { return genAIterm() + ": is it really the best way to solve " + genProblemName() + "?" },
-        () => { return genAIterm() + ": is too many layers actually a good thing?" },
-        () => { return "On the impossibility of solving " + genProblemName() },
-        () => { return genAIterm() + ": a biologically-inspired model" },
-        () => { return genAIterm() + " as a model of " + genProblemName() },
-        () => { return "The " + genAIterm() + " technique is turing-complete?" },
-        () => { return "We can do better than " + genAIterm()  },
-        () => { return "Generating malware with " + genAIterm() },
-        () => { return "A literature review of " + genAIterm() },
-    ]
-    result = sampleArray(papernameGenerators)();
-    // make first letter uppercase
-    result = result.charAt(0).toUpperCase() + result.slice(1);
-    return result;
+    stage_hash.clicker_array = [];
+    stage_hash.advancement_predicate_array = [];
+    stage_hash.AddAdvancementPredicate = (predicate) => {
+        stage_hash.advancement_predicate_array.push(predicate);
+    };
+    stage_hash.narrative_array = [];
+    stage_hash.AddFuction = (func,args_array) => {
+    stage_hash.title = title;
+    stage_hash.function = func;
+    stage_hash.args_array = args_array;
+    };
+    stage_hash.AddNarrativeText = (text,speed,type_speed) => {
+        console_speed = speed || stage_hash.default_console_speed;
+        console_type_speed = type_speed || stage_hash.default_console_type_speed;
+        stage_hash.narrative_array.push({text:text,console_speed: console_speed,console_type_speed: console_type_speed,});
+    };
+    stage_hash.AddText = (text) => {stage_hash.text = text};
+    stage_hash.sub_stages_array.push(stage_hash);
+    stage_hash.stage_cnt = 0;
+    stage_hash.AddStage = (title) => {
+            let new_stage = createStagesObject(this.game_state)
+            this.sub_stages_array.push(createStagesObject(this.game_state));
+            return new_stage;
+            };
+    return stage_hash;
 }
