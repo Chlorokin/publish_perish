@@ -1,6 +1,6 @@
-var time_is_a_global_variable = Math.round((new Date()).getTime() / 1000);
-var pause_time_is_a_global_variable = 0;
-
+let total_papers_published_global = 0;
+let time_is_a_global_variable = Math.round((new Date()).getTime() / 1000);
+let pause_time_is_a_global_variable = 0;
 function startTime(){
     pause_time_is_a_global_variable = 1;
     }
@@ -37,13 +37,16 @@ function turnOnTimeInterval(){
         let clock_string = hour + ":" + minute;
         document.getElementById("date_display").innerHTML = new_date;
         document.getElementById("time_display").innerHTML = clock_string;
-    }, 10);
+    }, 1);
 }
 
 function renderState(game_state){
-    document.getElementById("num_papers").innerHTML = game_state.papers_published.list_of_papers.length;
+    console.log(game_state);
+    document.getElementById("num_papers").innerHTML = game_state.papers_published.length;
     document.getElementById("num_cites").innerHTML = game_state.num_cites;
-    game_state.time_step++;
+    //if (game_state.pending_paper_name != ""){
+    //    document.getElementById("writing_paper").innerHTML = game_state.pending_paper_name;
+    //}
 }
 
 
@@ -53,14 +56,11 @@ async function main(){
     game_state.citations = 0;
     game_state.level = 0;
     game_state.num_cites = 0;
-    game_state.papers_published = {list_of_papers:[]};
+    game_state.papers_published = [];
     game_state.console_window_array = [];
     game_state.time_step = 0
-    //let papers = await generateNodeList();
-    //papers = papers.sort(function(a,b){
-    //    return b.degree - a.degree;
-    //});
-    //game_state.all_papers_in_world = papers; 
+    game_state.finished_paper = ""; 
+    game_state.writing_paper = "";
     callLevel(0,game_state);
 }
 
