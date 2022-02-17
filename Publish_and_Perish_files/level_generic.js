@@ -2,9 +2,12 @@ async function CreateNarrativeTextObject(){
     let object = {};
     object.narrative_array = [];
     object.AddNarrativeText = (text, console_type_speed, console_speed) => {
-        console_speed = console_speed || 1000;
+        console_speed = console_speed * 100 || 1000;
         console_type_speed = console_type_speed || 10;
         object.narrative_array.push({text:text, console_type_speed:console_type_speed, console_speed:console_speed});
+    }
+    object.AddClearText = () => {
+        object.narrative_array.push({clear:true});
     }
     object.PlayText = async function(){await PlayNarrativeTextObject(object)};
     return object;
@@ -14,8 +17,13 @@ async function PlayNarrativeTextObject(narrative_object){
     let narrative_array  =  narrative_object.narrative_array;
     for (let i = 0; i < narrative_array.length; i++){
         let narrative_hash = narrative_array[i];
-        await consoleAddText(narrative_hash.text, narrative_hash.console_type_speed);
-        await sleep(narrative_hash.console_speed);
+        if (narrative_hash.clear == true){
+            document.getElementById('console').innerHTML = "";
+        }
+        else{
+            await consoleAddText(narrative_hash.text, narrative_hash.console_type_speed);
+            await sleep(narrative_hash.console_speed);
+        }
      }
 }
 
@@ -71,6 +79,7 @@ function callLevel(level_int,game_state){
 
 async function levelIntro(game_state)
     {
+    ///document.getElementById("goosele_scholar").style.display = "none";
     let play_area_div = document.getElementById("play_area");
     let text_object = await CreateNarrativeTextObject();
     text_object.AddNarrativeText("You ask yourself, \"What is the purpose of my life?\"");
@@ -84,75 +93,63 @@ async function levelIntro(game_state)
     text_object.AddNarrativeText("As AI is the study of intelligence, and it is intelligence that makes all sciences possible.");
     await text_object.PlayText();
 
-    let essay_cnt = 1
+    play_area_div.appendChild(createButton("Apply to grad school", "apply_to_grad", "clicker"));
+    document.getElementById("apply_to_grad").addEventListener('click', WriteApplication);
+
     async function WriteApplication() {
         //remove the button with the id apply_to_grad
         let text_object = await CreateNarrativeTextObject();
         document.getElementById("apply_to_grad").removeEventListener('click',WriteApplication);
         document.getElementById("apply_to_grad").remove();
-        let time = 10 * 10000;
-        text_object.AddNarrativeText("You better start typing out your application.",null,1000);
-        text_object.AddNarrativeText("You know how to type right?",null,1000);
+        text_object.AddClearText();
+        text_object.AddNarrativeText("You better start typing out your application letter.",null,10);
+        text_object.AddNarrativeText("You know how to type right?",null,10);
         text_object.AddNarrativeText("You just have to keep hitting keys, it will come out fine.",null,1000);
         text_object.PlayText();
         let typer_object = createTyperObject(game_state);
         typer_object.OverridePaperTitle("How I overcame adversity and plan to change the world for the better with ML")
-        typer_object.AddFinishedFunction(function(){essay_cnt++
+        typer_object.AddFinishedFunction(function(){
             Rejection();
         });
         typer_object.AddTyper(game_state);
     }
-    async function Rejection()
-        {
+    async function Rejection(){
+
         document.getElementById('console').innerHTML = "";
         let text_object = await CreateNarrativeTextObject();
-        text_object.AddNarrativeText("Thank you for your interest in our program. We regret to inform you that imposter syndrome is not a syndrome if you are actually an imposter. Your academic record is an embarrassment, and, frankly, we feel you have not overcome enough adversity.")
-        text_object.AddNarrativeText("We hope our firm rejection will be taken as a hardship you can overcome, and perhaps even mention in your application essays to other, lesser schools.");
+        text_object.AddClearText();
+        text_object.AddNarrativeText("You finish your application letter you, and apply to your dream school and your backup.",null,10);
+        text_object.AddNarrativeText("Your dream school responds first:",null,3);
+        text_object.AddNarrativeText(" ",null,0.1);
+        text_object.AddNarrativeText("Thank you for your interest in our program. We regret to inform you that one cannot have imposter syndrome if you are actually an imposter. Your academic record is an embarrassment, and, frankly, we feel you have not overcome enough adversity.")
+        text_object.AddNarrativeText(" ",null,0.1);
+        text_object.AddNarrativeText("We hope our firm rejection will be taken as a hardship you can overcome, and perhaps even mention in your application letters to other, lesser schools.");
+        //text_object.AddNarrativeText("We hope our firm rejection will be taken as a hardship you can overcome, and perhaps even mention in your application letters to other, lesser schools.");
         await text_object.PlayText();
-        play_area_div.appendChild(createButton("Apply to different grad school", "apply_to_grad", "clicker"));
-//        document.getElementById("write_gain").addEventListener('click',));
+        play_area_div.appendChild(createButton("Read reply from your backup school", "write_again", "clicker"));
+        document.getElementById("write_again").addEventListener('click',WriteAgain);
         }
-    play_area_div.appendChild(createButton("Apply to grad school", "apply_to_grad", "clicker"));
-    document.getElementById("apply_to_grad").addEventListener('click', WriteApplication);
-    return;
-    //play_area_div.appendChild();
-    //startTime();
-//    play_area_div.appendChild(createButton("Publish Paper", "publish_paper", "clicker"));
-//    document.getElementById("publish_paper").addEventListener('click', publishPaper);
-    //document.addEventListener("keydown", typing);
-    let stages_array = [];
 
-    let grad_school_test = {}
-    grad_school.game_state = game_state;
-    grad_school.AdvancementPredicate = function(){return game_state.papers_published == 10};
-    text_object = CreateNarrativeTextObject();
-    grad_school_test.text_object = text_object;
-    stages_array.push(grad_school_test);
-
-
-    return;
-
-    let grad_school_text = await CreateNarrativeTextObject();
-    text_object.AddNarrativeText("");
-
-    index = 0;
- //   function NextText() {
- //       removeAllEventListeners()
- //       let text_hash = text_hash_array[index];
- //       let func_hash = text_hash.function;
- //       let func = func_hash.name;
- //       let func_args  = func_hash.args;
- //       console.log('func args',func_args);
- //       consoleAddText(text_hash.text)
- //       document.getElementById("level_one_click").addEventListener('click', func(func_args[0],func_args[1]));
- //   }
-
-    play_area_div.appendChild(createButton("Apply to grad school", "level_one_click", "clicker"));
-    document.getElementById("level_one_click").addEventListener('click', NextText);
+    async function WriteAgain(){
+        document.getElementById("write_again").removeEventListener('click',WriteApplication);
+        document.getElementById("write_again").remove();
+        document.getElementById('console').innerHTML = "";
+        let text_object = await CreateNarrativeTextObject();
+        text_object.AddClearText();
+        text_object.AddNarrativeText("We are happy to inform you that we have accepted you into our program. Your academic record is an adequate, and, frankly, impressive given all the adversity you have so bravely overcome.",null,3);
+        await text_object.PlayText();
+        play_area_div.appendChild(createButton("Next level", "next_level", "clicker"));
+        document.getElementById("next_level").addEventListener('click',levelOne);
+        }
     }
 
-function levelOne(game_state){
-    console.log("game_state line 86",game_state);
+async function levelOne(game_state){
+    alert('test');
+    let text_object = await CreateNarrativeTextObject();
+    text_object.AddClearText();
+    await text_object.PlayText();
+    return;
+    document.getElementById("goosele_scholar").style.display = "inline";
     game_state.level = 1;
 
     function publishPaper() {
