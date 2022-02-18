@@ -100,7 +100,7 @@ async function levelIntro(game_state) {
   text_object.AddNarrativeText(
     "As AI is the study of intelligence, and it is intelligence that makes all sciences possible."
   );
-  //await text_object.PlayText();
+  await text_object.PlayText();
 
   play_area_div.appendChild(
     createButton("Apply to grad school", "apply_to_grad", "clicker")
@@ -179,13 +179,13 @@ async function levelIntro(game_state) {
     let text_object = await CreateNarrativeTextObject();
     text_object.AddClearText();
     text_object.AddNarrativeText(
-      "We are happy to inform you that we have accepted you into our program. Your academic record is an adequate, and, frankly, impressive given all the adversity you have so bravely overcome.",
+      "We are happy to inform you that we have accepted you into our program. Your academic record is adequate, and, frankly, impressive given all the adversity you have so bravely overcome.",
       null,
       3
     );
     await text_object.PlayText();
     play_area_div.appendChild(
-      createButton("Next level", "next_level", "clicker")
+      createButton("Start next level", "next_level", "clicker")
     );
     document.getElementById("next_level").addEventListener("click", levelOne);
   }
