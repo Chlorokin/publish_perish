@@ -36,7 +36,7 @@ var paper_titles = [
   "Transformers is all you need",
   "Parameters is all you need",
   "Money is all you need",
-  "\"All you need\" is all you need",
+  '"All you need" is all you need',
   "Nonsense AI paper titles is all you need",
   "The unreasonable effectiveness of transformers",
   "The unreasonable effectiveness of scaling",
@@ -51,11 +51,11 @@ var paper_titles = [
   "Generating malware with transformers",
   "Generating transformer improving software with transformers",
   "On the impossibility of humans",
-]
+];
 
 var conference_names = [
   "International Conference on Learning Rates",
   "Neuroscientific International Primatological Society",
   "International Conference on Markup Languages",
   "Applied Applications Applicating Inapplicabilities",
-]
+];
