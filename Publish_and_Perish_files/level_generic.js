@@ -1,9 +1,37 @@
-async function CreateNarrativeTextObject() {
+
+function CreateTasksObject(title){
   let object = {};
+  object.title = title;
+  object.tasks = []
+  object.GetTaskList = function(){
+  return object.tasks;
+  }
+  object.AddTask = function(){
+    task_object = {};
+    task_object.complete = false;
+    task_object.completion_predicate = false;
+    task_object.AddCompletionPredicate = function(func){
+      console.assert(typeof func === 'function')
+      task_object.advancement_predicate = func;
+    }
+    task_object.type = false;
+    task_object.AddTitle = function(title){
+    task_object.title = title;
+    }
+    object.tasks.push(task_object);
+    return task_object;
+  }
+  return object;
+}
+
+async function CreateNarrativeTextObject(default_console_speed, default_type_speed) {
+  let object = {};
+  object.default_console_speed = default_console_speed | 1000
+  object.default_type_speed = default_type_speed || 10
   object.narrative_array = [];
   object.AddNarrativeText = (text, console_type_speed, console_speed) => {
-    console_speed = console_speed * 100 || 1000;
-    console_type_speed = console_type_speed || 10;
+    console_speed = console_speed * 100 || object.default_console_speed;
+    console_type_speed = console_type_speed ||  object.default_type_speed;
     object.narrative_array.push({
       text: text,
       console_type_speed: console_type_speed,
@@ -18,6 +46,7 @@ async function CreateNarrativeTextObject() {
   };
   return object;
 }
+
 
 async function PlayNarrativeTextObject(narrative_object) {
   let narrative_array = narrative_object.narrative_array;
@@ -46,6 +75,7 @@ CreateLevelObject = function (level_int, game_state) {
     });
   };
 };
+
 
 function createButton(name, id, class_name) {
   var button = document.createElement("button");
@@ -82,7 +112,7 @@ function callLevel(level_int, game_state) {
 }
 
 async function levelIntro(game_state) {
-  ///document.getElementById("goosele_scholar").style.display = "none";
+  document.getElementById("stats_table").style.display = 'none';
   let play_area_div = document.getElementById("play_area");
   let text_object = await CreateNarrativeTextObject();
   text_object.AddNarrativeText(
@@ -102,6 +132,8 @@ async function levelIntro(game_state) {
   );
   await text_object.PlayText();
 
+
+  //document.getElementById("goosele_scholar_div").style.display = 'none';
   play_area_div.appendChild(
     createButton("Apply to grad school", "apply_to_grad", "clicker")
   );
@@ -143,7 +175,7 @@ async function levelIntro(game_state) {
     let text_object = await CreateNarrativeTextObject();
     text_object.AddClearText();
     text_object.AddNarrativeText(
-      "You finish your application letter you, and apply to your dream school and your backup.",
+      "You finish your application letter and apply to your dream school and your backup.",
       null,
       10
     );
@@ -187,64 +219,160 @@ async function levelIntro(game_state) {
     play_area_div.appendChild(
       createButton("Start next level", "next_level", "clicker")
     );
-    document.getElementById("next_level").addEventListener("click", levelOne);
+    document.getElementById("next_level").addEventListener("click", CallLevelOne);
+  }
+  function CallLevelOne() {
+  document
+    .getElementById("next_level")
+    .removeEventListener("click", CallLevelOne);
+  document
+    .getElementById("next_level")
+    .remove();
+    levelOne(game_state);
   }
 }
 
 async function levelOne(game_state) {
-  let text_object = await CreateNarrativeTextObject();
+  let play_area_div = document.getElementById("play_area");
+  let [first_name, last_name] = game_state.player_name;
+  let text_object = await CreateNarrativeTextObject(10,10);
   text_object.AddClearText();
+  // now let's write a for loop that alerts on each loop
+  let text_block = "You arrive at the school and talk to various potential advisors." 
+  text_object.AddNarrativeText(text_block);
+
+  text_block = "\nYou find it odd that they don't talk about finding truth or understanding intelligence. They talk only of getting citations.";
+  text_object.AddNarrativeText(text_block);
+  text_object.AddNarrativeText('');
+  text_block = " Now in conversation with a potential advisor, who explained what topics are hot right now and apt to get you cited, you ask the following:";
+  text_object.AddNarrativeText(text_block);
+  text_object.AddNarrativeText('');
+  text_object.AddNarrativeText('"You keep talking about citations, and I understand they are important, but they are just a means to an end, right?"');
+  text_object.AddNarrativeText('', 0, 0);
+  text_object.AddNarrativeText('He looks at you, bemused, like one does at child asking why adults enjoy all that kissing business.');
+  text_object.AddNarrativeText('', 0, 0);
+  text_object.AddNarrativeText('"You\'ll understand when you get your first citation," he says.');
+  if (debug == false){
   await text_object.PlayText();
-  return;
-  document.getElementById("goosele_scholar").style.display = "inline";
-  game_state.level = 1;
-
-  function publishPaper() {
-    var num_cites_div = document.getElementById("num_cites");
-
-    var num_papers_div = document.getElementById("num_papers");
-    let message = "";
-
-    if (Math.random() < 0.4) {
-      let ran_cites = Math.floor(Math.random() * 20) + 1;
-      game_state.num_cites =
-        parseInt(game_state.num_cites) + parseInt(ran_cites);
-      let time_or_times = "times";
-      if (ran_cites == 1) {
-        time_or_times = "time";
-      }
-      message =
-        "Your paper (" +
-        paper_name +
-        ") was cited " +
-        ran_cites +
-        " " +
-        time_or_times +
-        ".";
-    } else {
-      message = "Your paper (" + paper_name + ") was not cited.";
-    }
-
-    if (num_cites_div.getAttribute("total_cites") === 0) {
-      let paper_or_papers = "papers";
-      if (num_cites.attributes.getNamedItem("total_clicks").value == 1) {
-        paper_or_papers = "paper";
-      }
-      message = "No one cares about your papers yet";
-    } else if (game_state.num_cites > 10) {
-      message =
-        "Game over: DeepMind made AGI without you. Everyone you love is now dead, including you!!";
-      document.getElementById("publish_paper").style.display = "none";
-      consoleAddText(message);
-      sleep(2000);
-    } else {
-      renderState(game_state);
-      consoleAddText(message);
-    }
-    var paper_name = genPaperName();
-    game_state.papers_published.list_of_papers.push(paper_name);
   }
-  renderState(game_state);
+  else{
+//    await text_object.PlayText();
+    //text_object.PlayText();
+  }
+  
+  document.getElementById("stats_table").style.display = 'inline';
+  let tasks_object = CreateTasksObject("Graduate:");
+  let task_1 = tasks_object.AddTask();
+
+
+  task_1.AddTitle('Publish at least 3 papers');
+  task_1.AddCompletionPredicate(()=>{if (game_state.papers_published.length >= 3){return true}else{false}});
+  game_state.tasks_object = tasks_object;
+
+  let task_2 = tasks_object.AddTask();
+  task_2.AddTitle('Get at least 4 citations');
+  task_2.AddCompletionPredicate(()=>{if (game_state.num_cites >= 4){return true}else{false}});
+
+async function showJobsClick(){
+  alert('test');
+  }
+async function listTasks(game_state){
+      document.getElementById("console").innerHTML = "";
+      let tasks_object = game_state.tasks_object;
+      await consoleAddText(tasks_object.title,10);
+      let task_list = tasks_object.GetTaskList();
+      for (let i = 0; i < task_list.length; i++){
+        task = task_list[i];
+        await consoleAddText( (i+1) + ". " + task.title,10);
+        }
+  } 
+
+  function listTasksClick(){
+    listTasks(game_state);
+   }
+
+  play_area_div.appendChild(
+    createButton("Show jobs", "show_jobs")
+  );
+  document
+    .getElementById("show_jobs")
+    .addEventListener("click", showJobsClick);
+
+  play_area_div.appendChild(
+    createButton("List tasks", "list_tasks", listTasksClick)
+  );
+
+  document
+    .getElementById("list_tasks")
+    .addEventListener("click", listTasksClick);
+
+  function buildDataset(){
+      document.getElementById("console").innerHTML = "";
+      consoleAddText('#!/usr/bin/env python');
+
+  }
+
+  play_area_div.appendChild(
+    createButton("Build dataset", "build_dataset")
+  );
+
+  document
+    .getElementById("build_dataset")
+    .addEventListener("click", buildDataset)
+
+
+
+//  let text_object = await CreateNarrativeTextObject();
+//  text_object.AddClearText();
+//  await text_object.PlayText();
+//  document.getElementById("goosele_scholar").style.display = "inline";
+//  game_state.level = 1;
+//
+//  function publishPaper() {
+//    var num_cites_div = document.getElementById("num_cites");
+//
+//    var num_papers_div = document.getElementById("num_papers");
+//    let message = "";
+//
+//    if (Math.random() < 0.4) {
+//      let ran_cites = Math.floor(Math.random() * 20) + 1;
+//      game_state.num_cites =
+//        parseInt(game_state.num_cites) + parseInt(ran_cites);
+//      let time_or_times = "times";
+//      if (ran_cites == 1) {
+//        time_or_times = "time";
+//      }
+//      message =
+//        "Your paper (" +
+//        paper_name +
+//        ") was cited " +
+//        ran_cites +
+//        " " +
+//        time_or_times +
+//        ".";
+//    } else {
+//      message = "Your paper (" + paper_name + ") was not cited.";
+//    }
+//
+//    if (num_cites_div.getAttribute("total_cites") === 0) {
+//      let paper_or_papers = "papers";
+//      if (num_cites.attributes.getNamedItem("total_clicks").value == 1) {
+//        paper_or_papers = "paper";
+//      }
+//      message = "No one cares about your papers yet";
+//    } else if (game_state.num_cites > 10) {
+//      message =
+//        "Game over: DeepMind made AGI without you. Everyone you love is now dead, including you!!";
+//      document.getElementById("publish_paper").style.display = "none";
+//      consoleAddText(message);
+//      sleep(2000);
+//    } else {
+//      renderState(game_state);
+//      consoleAddText(message);
+//    }
+//    var paper_name = genPaperName();
+//    game_state.papers_published.list_of_papers.push(paper_name);
+//  }
 }
 
 function createStagesObject_remove(game_state, calling_stage) {

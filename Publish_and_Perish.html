@@ -21,15 +21,14 @@
     <div id="container">
     <div id="header">
     <div class="console" id="console"></div>
-    <div class="goosele_scholar"  style="display: inline">
-      <table style="max-width:49.5em" cellspacing="0" cellpadding="2" border="0">
+    <div class="goosele_scholar" id="goosele_scholar" style="display: inline">
+      <table id="stats_table" style="display: inline" cellspacing="0" cellpadding="2" border="0">
         <tbody>
           <tr>
             <td style="padding-right:12px"><img src="https://scholar.google.com/intl/en/scholar/images/2x/feather-72.png" width="30" height="60"></td>
             <td style="padding-right:8px" valign="top">
-              <h4 class="gs_rt2"><a href="/citations?user=PjIP_WcAAAAJ&amp;hl=en&amp;oi=ao"><b>Filler Name</b></a></h4>
-              <div class="gs_nph">Student, REPLACE_ME</div>
-              <div>Verified email at REPLACE_ME</div>
+              <div class="gs_nph">Student, Aston Giprot</div>
+              <div>Verified email at uni.edu</div>
               <div>
                 Cited by 
                 <div style="display: inline" id="num_cites">0</div>
@@ -45,6 +44,15 @@
                    Time
                   <div style="display: inline" id="time_display">0</div>
                 </div>
+              </div>
+            </td>
+            <td style="padding-right:8px" valign="top">
+              <div valign="top" class="compute_div" id="compute_div">
+                <b>Compute and funds</b><br>
+                <hr>
+                Available Funds: $ <span id="funds">0</span><br>
+                Local compute: <span id="local_compute">A100</span><br>
+                Cloud compute: <span id="local_compute">None</span><br>
               </div>
             </td>
           </tr>

@@ -3,7 +3,7 @@
   color: #fff;
   font-family: "Fira Code", monospace;
   font-size: 14px;
-  height: 50%;
+  height: 30%;
   overflow: auto;
   padding: 10px;
   width: 80%;
@@ -63,4 +63,22 @@ button {
 
 img {
   filter: invert(100%);
+}
+
+.toggle-content {
+	display: none;
+}
+
+.toggle-content.is-visible {
+	display: block;
+}
+
+.column {
+  float: left;
+  width: 50%;
+}
+
+.compute_div{
+  width: 100%;
+  float: right
 }
