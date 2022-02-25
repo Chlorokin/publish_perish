@@ -26,16 +26,21 @@ function CreateTasksObject(title){
 
 async function CreateNarrativeTextObject(default_console_speed, default_type_speed) {
   let object = {};
-  object.default_console_speed = default_console_speed | 1000
-  object.default_type_speed = default_type_speed || 10
+  object.default_console_speed = default_console_speed || 100
+  object.default_type_speed = default_type_speed || 35;
   object.narrative_array = [];
-  object.AddNarrativeText = (text, console_type_speed, console_speed) => {
-    console_speed = console_speed * 100 || object.default_console_speed;
-    console_type_speed = console_type_speed ||  object.default_type_speed;
+  //sent no_br=true in params, if you want to skip line break
+  //useful for creating pauses in sentances
+  object.AddNarrativeText = (text, params) => {
+    params = params || {};
+    let console_type_speed = object.default_type_speed;
+    let delay = params.delay;
+    let no_br = params.no_br;
     object.narrative_array.push({
       text: text,
       console_type_speed: console_type_speed,
-      console_speed: console_speed,
+      delay: delay,
+      no_br: no_br
     });
   };
   object.AddClearText = () => {
@@ -52,14 +57,15 @@ async function PlayNarrativeTextObject(narrative_object) {
   let narrative_array = narrative_object.narrative_array;
   for (let i = 0; i < narrative_array.length; i++) {
     let narrative_hash = narrative_array[i];
+    let delay = narrative_hash.delay * 100 || 100;
     if (narrative_hash.clear == true) {
       document.getElementById("console").innerHTML = "";
     } else {
       await consoleAddText(
         narrative_hash.text,
-        narrative_hash.console_type_speed
+        {speed:narrative_hash.console_type_speed,no_br:narrative_hash.no_br,delay:delay}
       );
-      await sleep(narrative_hash.console_speed);
+      await sleep(delay);
     }
   }
 }
@@ -121,7 +127,7 @@ async function levelIntro(game_state) {
   text_object.AddNarrativeText("And you decide it is to find truth.");
   text_object.AddNarrativeText("So you study science.");
   text_object.AddNarrativeText("First, biology.");
-  text_object.AddNarrativeText("Then, physics.");
+  text_object.AddNarrativeText("Then, physics.",{delay:100});
   text_object.AddNarrativeText("Then, computer science.");
   text_object.AddNarrativeText("Finally, AI.");
   text_object.AddNarrativeText(
@@ -181,9 +187,11 @@ async function levelIntro(game_state) {
     );
     text_object.AddNarrativeText("Your dream school responds first:", null, 3);
     text_object.AddNarrativeText(" ", null, 0.1);
+    text_object.AddNarrativeText("Thank you for your interest in our program.", null, 10);
+    text_object.AddNarrativeText("We regret to inform you that",{delay:5});
     text_object.AddNarrativeText(
-      "Thank you for your interest in our program. We regret to inform you that one cannot have imposter syndrome if you are actually an imposter. Your academic record is an embarrassment, and, frankly, we feel you have not overcome enough adversity."
-    );
+      " one cannot have imposter syndrome if you are actually an imposter. Your academic record is an embarrassment, and, frankly, we feel you have not overcome enough adversity.",
+    {no_br:true});
     text_object.AddNarrativeText(" ", null, 0.1);
     text_object.AddNarrativeText(
       "We hope our firm rejection will be taken as a hardship you can overcome, and perhaps even mention in your application letters to other, lesser schools."
@@ -252,11 +260,12 @@ async function levelOne(game_state) {
   text_object.AddNarrativeText('He looks at you, bemused, like one does at child asking why adults enjoy all that kissing business.');
   text_object.AddNarrativeText('', 0, 0);
   text_object.AddNarrativeText('"You\'ll understand when you get your first citation," he says.');
+  sleep(100)
   if (debug == false){
   await text_object.PlayText();
   }
   else{
-//    await text_object.PlayText();
+    await text_object.PlayText();
     //text_object.PlayText();
   }
   

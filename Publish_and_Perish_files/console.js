@@ -23,16 +23,27 @@ function changeDisplayAllClickers(display_type) {
   }
 }
 
-async function consoleAddText(txt, speed_ms, hide_clickers) {
+async function consoleAddText(txt,params) {
+  params = params || {};
+  console.log(params);
+  console.log(params);
+  let hide_clickers = params.hide_clickers || false;
+  let no_br = params.no_br || false;
+  let speed_ms = params.speed;
+
+  console.assert(typeof(hide_clickers) === "boolean")
+  console.assert(typeof(no_br) === "boolean")
   console.assert(
     hide_clickers === undefined || typeof hide_clickers === "boolean"
   );
+  let break_or_not = no_br === false ? "<br>": ""
+  //alert(break_or_not)
   document.getElementById("console").innerHTML =
     document
       .getElementById("console")
       .innerHTML.split("<br>")
       .slice(-6)
-      .join("<br>") + "<br>";
+      .join("<br>") + break_or_not;
 
   var x = document.getElementsByClassName("clicker");
   for (i = 0; i < x.length; i++) {
