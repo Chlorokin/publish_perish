@@ -47,7 +47,9 @@ async function CreateNarrativeTextObject(default_console_speed, default_type_spe
     object.narrative_array.push({ clear: true });
   };
   object.PlayText = async function () {
+    changeDisplayAllClickers("none");
     await PlayNarrativeTextObject(object);
+    changeDisplayAllClickers("inline");
   };
   return object;
 }
@@ -127,7 +129,7 @@ async function levelIntro(game_state) {
   text_object.AddNarrativeText("And you decide it is to find truth.");
   text_object.AddNarrativeText("So you study science.");
   text_object.AddNarrativeText("First, biology.");
-  text_object.AddNarrativeText("Then, physics.",{delay:100});
+  text_object.AddNarrativeText("Then, physics.");
   text_object.AddNarrativeText("Then, computer science.");
   text_object.AddNarrativeText("Finally, AI.");
   text_object.AddNarrativeText(
@@ -176,7 +178,7 @@ async function levelIntro(game_state) {
     });
     typer_object.AddTyper(game_state);
   }
-  async function Rejection() {
+  const Rejection = async () => {
     document.getElementById("console").innerHTML = "";
     let text_object = await CreateNarrativeTextObject();
     text_object.AddClearText();
@@ -188,7 +190,7 @@ async function levelIntro(game_state) {
     text_object.AddNarrativeText("Your dream school responds first:", null, 3);
     text_object.AddNarrativeText(" ", null, 0.1);
     text_object.AddNarrativeText("Thank you for your interest in our program.", null, 10);
-    text_object.AddNarrativeText("We regret to inform you that",{delay:5});
+    text_object.AddNarrativeText("We regret to inform you that",{delay:8});
     text_object.AddNarrativeText(
       " one cannot have imposter syndrome if you are actually an imposter. Your academic record is an embarrassment, and, frankly, we feel you have not overcome enough adversity.",
     {no_br:true});
@@ -219,10 +221,8 @@ async function levelIntro(game_state) {
     let text_object = await CreateNarrativeTextObject();
     text_object.AddClearText();
     text_object.AddNarrativeText(
-      "We are happy to inform you that we have accepted you into our program. Your academic record is adequate, and, frankly, impressive given all the adversity you have so bravely overcome.",
-      null,
-      3
-    );
+      "We are happy to inform you that we have accepted you into our program.",{delay:3});
+    text_object.AddNarrativeText("Your academic record is adequate, and, frankly, impressive given all the adversity you have so bravely overcome.",{no_br:true})
     await text_object.PlayText();
     play_area_div.appendChild(
       createButton("Start next level", "next_level", "clicker")
@@ -260,12 +260,12 @@ async function levelOne(game_state) {
   text_object.AddNarrativeText('He looks at you, bemused, like one does at child asking why adults enjoy all that kissing business.');
   text_object.AddNarrativeText('', 0, 0);
   text_object.AddNarrativeText('"You\'ll understand when you get your first citation," he says.');
-  sleep(100)
+  sleep(100);
   if (debug == false){
   await text_object.PlayText();
   }
   else{
-    await text_object.PlayText();
+    //await text_object.PlayText();
     //text_object.PlayText();
   }
   
@@ -285,7 +285,7 @@ async function levelOne(game_state) {
 async function showJobsClick(){
   alert('test');
   }
-async function listTasks(game_state){
+const listTasks = async (game_state) => {
       document.getElementById("console").innerHTML = "";
       let tasks_object = game_state.tasks_object;
       await consoleAddText(tasks_object.title,10);
@@ -296,7 +296,7 @@ async function listTasks(game_state){
         }
   } 
 
-  function listTasksClick(){
+  const listTasksClick = () => {
     listTasks(game_state);
    }
 
@@ -315,14 +315,17 @@ async function listTasks(game_state){
     .getElementById("list_tasks")
     .addEventListener("click", listTasksClick);
 
-  function buildDataset(){
-      document.getElementById("console").innerHTML = "";
-      consoleAddText('#!/usr/bin/env python');
+
+  const  buildDataset = async () => {
+      document.getElementById('myCanvas').style.display= "";
+      let plot_object = await CreatePlotObject();
+      await plot_object.GatherData();
+      document.getElementById('myCanvas').style.display= "none";
 
   }
 
   play_area_div.appendChild(
-    createButton("Build dataset", "build_dataset")
+    createButton("Gather data", "build_dataset")
   );
 
   document

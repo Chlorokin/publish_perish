@@ -57,7 +57,7 @@ function renderState(game_state) {
 }
 
 async function main() {
-//  document.getElementById("goosele_scholar_div").style.display = 'none';
+  document.getElementById('myCanvas').style.display="none";
   sleep(10);
   turnOnTimeInterval();
   let game_state = {};
