@@ -318,9 +318,12 @@ const listTasks = async (game_state) => {
 
   const  buildDataset = async () => {
       document.getElementById('myCanvas').style.display= "";
+      document.getElementById("console").style.display= "none";
+
       let plot_object = await CreatePlotObject();
       await plot_object.GatherData();
       document.getElementById('myCanvas').style.display= "none";
+      document.getElementById("console").style.display= "";
 
   }
 
