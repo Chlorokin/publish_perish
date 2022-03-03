@@ -63,7 +63,7 @@ async function CreatePlotObject(){
         let y = ranY();
         [x, y] =  rotate(200,200, x, y,object.rotate_seed);
         await sleep (1);
-        ctx.fillRect(Math.round(x),Math.round(y),3,3);
+        ctx.fillRect(Math.round(x) - 100 ,Math.round(y),3,3);
       }
     }
   await sleep (1000);
