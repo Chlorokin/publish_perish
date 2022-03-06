@@ -82,3 +82,9 @@ img {
   width: 100%;
   float: right
 }
+.typer_title{
+  font-size: 13px;
+}
+.typer{
+  font-size: 8px;
+}

@@ -1,8 +1,8 @@
-const debug = true;
+const debug = false;
 
 let total_papers_published_global = 0;
-let time_is_a_global_variable = Math.round(new Date().getTime() / 1000);
-let pause_time_is_a_global_variable = 0;
+const time_is_a_global_variable = Math.round(new Date().getTime() / 1000);
+const pause_time_is_a_global_variable = 0;
 function startTime() {
   pause_time_is_a_global_variable = 1;
 }
@@ -70,7 +70,10 @@ async function main() {
   game_state.finished_paper = "";
   game_state.writing_paper = "";
   game_state.player_name = ['Aston','Giprot']
+  game_state.data_set = 0;
+
   if (debug) {
+   // callLevel(0, game_state);
     levelOne(game_state);
   }
   else {
