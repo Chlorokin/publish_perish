@@ -1,3 +1,4 @@
+"use strict";
 var gobal_papers = [];
 
 function sleep(ms) {
@@ -18,7 +19,7 @@ async function typeWriter(txt, speed_ms) {
 
 function changeDisplayAllClickers(display_type) {
   let clickers = document.getElementsByClassName("clicker");
-  for (i = 0; i < clickers.length; i++) {
+  for (let i = 0; i < clickers.length; i++) {
     clickers[i].style.display = display_type;
   }
 }
@@ -28,15 +29,15 @@ function randomIntFromInterval(min, max) { // min and max included
 }
 
 async function CreatePlotObject(){
-  object = {};
+  let object = {};
   object.rotate_seed = Math.round(Math.random() * 180);
   console.log(object.rotate_seed);
   
   let seed = Math.random() * 10;
     const randomG =  (seed_override) => { 
-      v = seed_override || seed;
+      let v = seed_override || seed;
       var r = 0;
-      for(var i = seed; i > 0; i --){
+      for(var i = v; i > 0; i --){
           r += Math.random();
       }
       return r / seed;
@@ -212,7 +213,7 @@ async function typing(game_state, typer_object) {
     game_state.pending_paper = "";
     renderState(game_state);
   }
-
+  let char  = "";
   length = document.getElementById("typer_title").innerHTML.length;
   let typer_title = document.getElementById("typer_title");
 
@@ -224,7 +225,7 @@ async function typing(game_state, typer_object) {
   if (length != paper_name.length) {
     document.getElementById("typer_title").innerHTML += paper_name[length];
   } else {
-    distributions = [
+    let distributions = [
       0, 0.018562456385205862, 0.1282707622298066, 0.16737357259380098,
       0.1469435736677116, 0.1720257234726688, 0.15173370319001386,
       0.2119032047089601, 0.23775933609958505, 0.22972237343494828,
@@ -234,7 +235,7 @@ async function typing(game_state, typer_object) {
       0.23711340206185566, 0.35135135135135137, 0.3125, 0.36363636363636365,
       0.5714285714285714, 0.5555555555555556, 1.0,
     ];
-    commas = [
+    let commas = [
       0.0, 0.0, 0.0, 0.045454545454545456, 0.027210884353741496,
       0.0979020979020979, 0.12403100775193798, 0.13274336283185842,
       0.16326530612244897, 0.25609756097560976, 0.19672131147540983,
@@ -244,19 +245,19 @@ async function typing(game_state, typer_object) {
     ];
 
     function distro_stuff() {
-      doc = document.getElementById("typer").innerHTML;
+      let doc = document.getElementById("typer").innerHTML;
 
-      text = doc.replace(/\./g, "");
-      last = text.length - text.lastIndexOf(" ") - 1;
+      let text = doc.replace(/\./g, "");
+      let last = text.length - text.lastIndexOf(" ") - 1;
 
       if (Math.random() < distributions[last]) {
-        text = doc.replace(/[^ \.]/g, "");
+        let text = doc.replace(/[^ \.]/g, "");
 
-        last = text.length - text.lastIndexOf(".");
+        let last = text.length - text.lastIndexOf(".");
 
         char = Math.random() < commas[last] ? ". " : " ";
       } else {
-        char = "-";
+         char = "-";
       }
     }
     if (document.getElementById("typer").innerHTML.length > 1000) {

@@ -1,4 +1,6 @@
-const debug = false;
+"use strict";
+const debug = true;
+//const debug = false;
 
 let total_papers_published_global = 0;
 const time_is_a_global_variable = Math.round(new Date().getTime() / 1000);

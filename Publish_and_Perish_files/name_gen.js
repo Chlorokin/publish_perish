@@ -1,3 +1,5 @@
+"use strict";
+
 function sampleArray(array) {
   return array[Math.floor(Math.random() * array.length)];
 }

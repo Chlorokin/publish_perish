@@ -1,13 +1,17 @@
+"use strict";
 
 function CreateTasksObject(title){
   let object = {};
   object.title = title;
+  object.AddTitle = (title_name) => {
+  object.title = title_name;
+  };
   object.tasks = []
   object.GetTaskList = function(){
   return object.tasks;
   }
   object.AddTask = function(){
-    task_object = {};
+    let task_object = {};
     task_object.complete = false;
     task_object.completion_predicate = false;
     task_object.AddCompletionPredicate = function(func){
@@ -72,17 +76,39 @@ async function PlayNarrativeTextObject(narrative_object) {
   }
 }
 
-CreateLevelObject = function (level_int, game_state) {
+function CreateLevelObject(game_state){ 
   let object = {};
-  object.level_int = level_int;
-  object.stages_array = [];
-  object.AddAdvancementPredicate = (predicate) => {
-    object.stages_array.push({
-      predicate: predicate,
-      stage_int: object.stages_array.length,
-    });
+  object.game_state = game_state;
+  object.tasks_object = CreateTasksObject()
+  object.ReturnTaskObject  = () =>{ 
+    return object.tasks_object;
+  }
+  object.next_level_func = () => {alert('Error:No next level defined');}
+  object.AddNextLevelFunc = (next_level_func) => {
+  console.assert(typeof next_level_func == 'function', "next_level_func must be a function")
+  object.next_level_func = next_level_func;
+  }
+  object.ShouldIAdvance = () =>{ 
+    let task_object = object.tasks_object;
+    let task_list = task_object.GetTaskList();
+    let filter_func = (task_object) =>{
+      if (task.completion_predicate()){
+        return;
+        }
+      else {
+        return task;
+      }
+    }
+  let incomplete_tasks = task_object.filter(filter_func);
+  if (incomplete_tasks.length > 0){
+    return incomplete_tasks;
+    }
+  else {
+  object.next_level_func();
+  }
   };
-};
+  object
+}
 
 
 function createButton(name, id, class_name) {

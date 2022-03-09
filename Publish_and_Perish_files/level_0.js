@@ -1,3 +1,4 @@
+"use strict";
 async function levelIntro(game_state) {
 	document.getElementById("stats_table").style.display = 'none';
 	let play_area_div = document.getElementById("play_area");

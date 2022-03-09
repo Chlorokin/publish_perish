@@ -1,3 +1,4 @@
+"use strict";
 var paper_titles = [
   "An Investigation into the Use of Recurrent Neural Networks for Predicting the Outcome of Goose Races",
   "Scaling Laws for Goose Shaped Transformers",

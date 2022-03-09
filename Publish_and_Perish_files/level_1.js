@@ -1,3 +1,4 @@
+"use strict";
 async function levelOne(game_state) {
 	let play_area_div = document.getElementById("play_area");
 	let [first_name, last_name] = game_state.player_name;
@@ -49,7 +50,7 @@ async function levelOne(game_state) {
 	    await consoleAddText(tasks_object.title,10);
 	    let task_list = tasks_object.GetTaskList();
 	    for (let i = 0; i < task_list.length; i++){
-	      task = task_list[i];
+	      let task = task_list[i];
 	      await consoleAddText( (i+1) + ". " + task.title,10);
 	      }
 	} 

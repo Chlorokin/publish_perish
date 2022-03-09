@@ -1,4 +1,4 @@
-//Yo, Fleeting, is this right? -- Chlorokin
+"use strict";
 
 function createNode(name) {
   let node = {};
