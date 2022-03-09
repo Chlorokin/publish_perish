@@ -59,7 +59,7 @@ function renderState(game_state) {
 }
 
 async function main() {
-  document.getElementById('myCanvas').style.display="none";
+  document.getElementById("myCanvas").style.display = "none";
   sleep(10);
   turnOnTimeInterval();
   let game_state = {};
@@ -71,15 +71,13 @@ async function main() {
   game_state.time_step = 0;
   game_state.finished_paper = "";
   game_state.writing_paper = "";
-  game_state.player_name = ['Aston','Giprot']
+  game_state.player_name = ["Aston", "Giprot"];
   game_state.data_set = 0;
 
   if (debug) {
-   // callLevel(0, game_state);
+    // callLevel(0, game_state);
     levelOne(game_state);
-  }
-  else {
+  } else {
     callLevel(0, game_state);
-    }
-
+  }
 }

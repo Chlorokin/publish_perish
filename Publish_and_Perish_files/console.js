@@ -24,64 +24,67 @@ function changeDisplayAllClickers(display_type) {
   }
 }
 
-function randomIntFromInterval(min, max) { // min and max included 
-  return Math.floor(Math.random() * (max - min + 1) + min)
+function randomIntFromInterval(min, max) {
+  // min and max included
+  return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-async function CreatePlotObject(){
+async function CreatePlotObject() {
   let object = {};
   object.rotate_seed = Math.round(Math.random() * 180);
   console.log(object.rotate_seed);
-  
-  let seed = Math.random() * 10;
-    const randomG =  (seed_override) => { 
-      let v = seed_override || seed;
-      var r = 0;
-      for(var i = v; i > 0; i --){
-          r += Math.random();
-      }
-      return r / seed;
-    }
-    object.GatherData = async () =>{
-      console.log(seed);
-      let canvas = document.getElementById("myCanvas");
-      let ctx = canvas.getContext("2d");
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const ranY = () =>{ return Math.random() * 1000};
-      const ranX = () =>{ return randomG() *  400};
-      ctx.fillStyle = "white";
-      const rotate = (cx, cy, x, y, angle) => {
-        var radians = (Math.PI / 180) * angle,
-            cos = Math.cos(radians),
-            sin = Math.sin(radians),
-            nx = (cos * (x - cx)) + (sin * (y - cy)) + cx,
-            ny = (cos * (y - cy)) - (sin * (x - cx)) + cy;
-        return [nx, ny];
-      }
 
-      for (let i = 0; i < 1000; i++){
-        let x = ranX()
-        let y = ranY();
-        [x, y] =  rotate(200,200, x, y,object.rotate_seed);
-        await sleep (1);
-        ctx.fillRect(Math.round(x) - 100 ,Math.round(y),3,3);
-      }
+  let seed = Math.random() * 10;
+  const randomG = (seed_override) => {
+    let v = seed_override || seed;
+    var r = 0;
+    for (var i = v; i > 0; i--) {
+      r += Math.random();
     }
-  await sleep (1000);
+    return r / seed;
+  };
+  object.GatherData = async () => {
+    console.log(seed);
+    let canvas = document.getElementById("myCanvas");
+    let ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const ranY = () => {
+      return Math.random() * 1000;
+    };
+    const ranX = () => {
+      return randomG() * 400;
+    };
+    ctx.fillStyle = "white";
+    const rotate = (cx, cy, x, y, angle) => {
+      var radians = (Math.PI / 180) * angle,
+        cos = Math.cos(radians),
+        sin = Math.sin(radians),
+        nx = cos * (x - cx) + sin * (y - cy) + cx,
+        ny = cos * (y - cy) - sin * (x - cx) + cy;
+      return [nx, ny];
+    };
+
+    for (let i = 0; i < 1000; i++) {
+      let x = ranX();
+      let y = ranY();
+      [x, y] = rotate(200, 200, x, y, object.rotate_seed);
+      await sleep(1);
+      ctx.fillRect(Math.round(x) - 100, Math.round(y), 3, 3);
+    }
+  };
+  await sleep(1000);
 
   return object;
 }
 
-
-
-  //alert(ranX());
-  //ctx.strokeStyle = "white";
-  //ctx.stroke(); 
- // ctx.textAlign = "left";
+//alert(ranX());
+//ctx.strokeStyle = "white";
+//ctx.stroke();
+// ctx.textAlign = "left";
 // ctx.fillText(txt, canvas.width/2, canvas.height/2);
- // ctx.clearRect(0, 0, canvas.width, canvas.height);
+// ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-async function consoleAddText(txt,params) {
+async function consoleAddText(txt, params) {
   params = params || {};
   console.log(params);
   console.log(params);
@@ -89,12 +92,12 @@ async function consoleAddText(txt,params) {
   let no_br = params.no_br || false;
   let speed_ms = params.speed;
 
-  console.assert(typeof(hide_clickers) === "boolean")
-  console.assert(typeof(no_br) === "boolean")
+  console.assert(typeof hide_clickers === "boolean");
+  console.assert(typeof no_br === "boolean");
   console.assert(
     hide_clickers === undefined || typeof hide_clickers === "boolean"
   );
-  let break_or_not = no_br === false ? "<br>": ""
+  let break_or_not = no_br === false ? "<br>" : "";
   //alert(break_or_not)
   document.getElementById("console").innerHTML =
     document
@@ -213,7 +216,7 @@ async function typing(game_state, typer_object) {
     game_state.pending_paper = "";
     renderState(game_state);
   }
-  let char  = "";
+  let char = "";
   length = document.getElementById("typer_title").innerHTML.length;
   let typer_title = document.getElementById("typer_title");
 
@@ -257,7 +260,7 @@ async function typing(game_state, typer_object) {
 
         char = Math.random() < commas[last] ? ". " : " ";
       } else {
-         char = "-";
+        char = "-";
       }
     }
     if (document.getElementById("typer").innerHTML.length > 1000) {

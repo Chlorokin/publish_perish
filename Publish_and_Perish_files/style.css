@@ -66,11 +66,11 @@ img {
 }
 
 .toggle-content {
-	display: none;
+  display: none;
 }
 
 .toggle-content.is-visible {
-	display: block;
+  display: block;
 }
 
 .column {
@@ -78,13 +78,13 @@ img {
   width: 50%;
 }
 
-.compute_div{
+.compute_div {
   width: 100%;
-  float: right
+  float: right;
 }
-.typer_title{
+.typer_title {
   font-size: 13px;
 }
-.typer{
+.typer {
   font-size: 8px;
 }
