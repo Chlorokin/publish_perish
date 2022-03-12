@@ -79,11 +79,42 @@ async function PlayNarrativeTextObject(narrative_object) {
   }
 }
 
-function CreateLevelObject(game_state) {
+
+function createLevelGameLoopObject(game_state){
+  let object = {};
+  object.level_object = createLevelObject(game_state);
+  object.GetLevelObject = () =>{
+    return object.level_object;
+    }
+  object.clickCheck = () => {
+    let check_bool, result = object.level_object.AdvanceCheck();
+    if (check_bool == true) {
+      result();
+      }
+    else {
+      renderState(game_state);
+      return result;
+      }
+    }
+    object.buttons = [];
+    object.AddButtonObject = (name, func) =>{
+      console.assert(typeof func == 'function', "This needs to be a function");
+      let button = createButton(name,uuidv4());
+      button.onclick = () => {
+         await func(); 
+         renderState(object);
+        };
+      object.buttons.push(button);
+      return button;
+    }
+  return object;
+  }
+
+function createLevelObject(game_state) {
   let object = {};
   object.game_state = game_state;
   object.tasks_object = CreateTasksObject();
-  object.ReturnTaskObject = () => {
+  object.GetTasksObject = () => {
     return object.tasks_object;
   };
   object.next_level_func = () => {
@@ -96,25 +127,27 @@ function CreateLevelObject(game_state) {
     );
     object.next_level_func = next_level_func;
   };
-  object.ShouldIAdvance = () => {
+  object.AdvanceCheck = () => {
     let task_object = object.tasks_object;
     let task_list = task_object.GetTaskList();
     let filter_func = (task_object) => {
-      if (task.completion_predicate()) {
+      if (task_object.completion_predicate()) {
         return;
       } else {
-        return task;
+        return task_object;
       }
     };
     let incomplete_tasks = task_object.filter(filter_func);
     if (incomplete_tasks.length > 0) {
-      return incomplete_tasks;
+      return false,incomplete_tasks;
     } else {
       object.next_level_func();
+      return true,object.next_level_func; 
     }
   };
-  object;
+  return object;
 }
+
 
 function createButton(name, id, class_name) {
   var button = document.createElement("button");
@@ -122,6 +155,11 @@ function createButton(name, id, class_name) {
   button.id = id;
   button.className = "clicker";
   return button;
+}
+
+function createButtonWithListenerObject(name, params){
+
+
 }
 
 function removeAllEventListeners() {
@@ -148,4 +186,10 @@ function callLevel(level_int, game_state) {
     let func = level_array[level_int - 1];
     func(game_state);
   }
+}
+
+function uuidv4() {
+  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+  );
 }

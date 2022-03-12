@@ -53,6 +53,7 @@ function renderState(game_state) {
   document.getElementById("num_papers").innerHTML =
     game_state.papers_published.length;
   document.getElementById("num_cites").innerHTML = game_state.num_cites;
+  document.getElementById("novel_data_sets").innerHTML = game_state.novel_data_sets;
   //if (game_state.pending_paper_name != ""){
   //    document.getElementById("writing_paper").innerHTML = game_state.pending_paper_name;
   //}
@@ -72,7 +73,9 @@ async function main() {
   game_state.finished_paper = "";
   game_state.writing_paper = "";
   game_state.player_name = ["Aston", "Giprot"];
-  game_state.data_set = 0;
+  game_state.novel_data_sets = 0;
+  game_state.canned_data_sets = 0;
+
 
   if (debug) {
     // callLevel(0, game_state);
