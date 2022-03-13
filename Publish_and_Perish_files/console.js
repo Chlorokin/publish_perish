@@ -29,7 +29,7 @@ function randomIntFromInterval(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-async function CreatePlotObject() {
+async function createPlotObject() {
   let object = {};
   object.rotate_seed = Math.round(Math.random() * 180);
   console.log(object.rotate_seed);
@@ -43,7 +43,7 @@ async function CreatePlotObject() {
     }
     return r / seed;
   };
-  object.GatherData = async () => {
+  object.gatherData = async () => {
     console.log(seed);
     let canvas = document.getElementById("myCanvas");
     let ctx = canvas.getContext("2d");

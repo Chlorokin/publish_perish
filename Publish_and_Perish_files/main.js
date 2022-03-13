@@ -49,11 +49,23 @@ function turnOnTimeInterval() {
 }
 
 function renderState(game_state) {
-  console.log(game_state);
+  //  console.log("GAME STATE ON RENDER", game_state);
   document.getElementById("num_papers").innerHTML =
     game_state.papers_published.length;
   document.getElementById("num_cites").innerHTML = game_state.num_cites;
-  document.getElementById("novel_data_sets").innerHTML = game_state.novel_data_sets;
+  document.getElementById("novel_data_sets").innerHTML =
+    game_state.novel_data_sets;
+  document.getElementById("canned_data_sets").innerHTML =
+    game_state.canned_data_sets;
+  document.getElementById("total_storage").innerHTML = game_state.total_storage;
+  document.getElementById("storage_used").innerHTML = game_state.storage_used;
+  let level_loop_object = game_state.level_loop_object;
+  if (level_loop_object) {
+    let play_area_div = document.getElementById("play_area");
+    level_loop_object.buttons.forEach((button) => {
+      play_area_div.appendChild(button);
+    });
+  }
   //if (game_state.pending_paper_name != ""){
   //    document.getElementById("writing_paper").innerHTML = game_state.pending_paper_name;
   //}
@@ -75,7 +87,8 @@ async function main() {
   game_state.player_name = ["Aston", "Giprot"];
   game_state.novel_data_sets = 0;
   game_state.canned_data_sets = 0;
-
+  game_state.storage_used = 0;
+  game_state.total_storage = 1;
 
   if (debug) {
     // callLevel(0, game_state);

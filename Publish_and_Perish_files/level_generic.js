@@ -1,34 +1,53 @@
 "use strict";
 
-function CreateTasksObject(title) {
+function clearConsole() {
+  document.getElementById("console").innerHTML = "";
+}
+
+function createTasksObject(title) {
   let object = {};
   object.title = title;
-  object.AddTitle = (title_name) => {
+  object.addTitle = (title_name) => {
     object.title = title_name;
   };
   object.tasks = [];
-  object.GetTaskList = function () {
+  object.getTaskList = function () {
     return object.tasks;
   };
-  object.AddTask = function () {
+  object.addTask = function () {
     let task_object = {};
     task_object.complete = false;
-    task_object.completion_predicate = false;
-    task_object.AddCompletionPredicate = function (func) {
+    task_object.completion_predicate = () => {
+      return true;
+    };
+    task_object.addCompletionPredicate = function (func) {
       console.assert(typeof func === "function");
-      task_object.advancement_predicate = func;
+      task_object.completion_predicate = func;
     };
     task_object.type = false;
-    task_object.AddTitle = function (title) {
+    task_object.addTitle = function (title) {
       task_object.title = title;
     };
     object.tasks.push(task_object);
     return task_object;
   };
+  object.listTasks = async () => {
+    document.getElementById("console").innerHTML = "";
+    changeDisplayAllClickers("none");
+    if (object.title !== undefined) {
+      await consoleAddText(object.title,{speed:30});
+    }
+    let task_list = object.getTaskList();
+    for (let i = 0; i < task_list.length; i++) {
+      let task = task_list[i];
+      await consoleAddText(i + 1 + ". " + task.title,{speed:30});
+    }
+    changeDisplayAllClickers("inline");
+  };
   return object;
 }
 
-async function CreateNarrativeTextObject(
+async function createNarrativeTextObject(
   default_console_speed,
   default_type_speed
 ) {
@@ -38,7 +57,7 @@ async function CreateNarrativeTextObject(
   object.narrative_array = [];
   //sent no_br=true in params, if you want to skip line break
   //useful for creating pauses without creating new line
-  object.AddNarrativeText = (text, params) => {
+  object.addNarrativeText = (text, params) => {
     params = params || {};
     let console_type_speed = object.default_type_speed;
     let delay = params.delay;
@@ -50,18 +69,18 @@ async function CreateNarrativeTextObject(
       no_br: no_br,
     });
   };
-  object.AddClearText = () => {
+  object.addClearText = () => {
     object.narrative_array.push({ clear: true });
   };
-  object.PlayText = async function () {
+  object.playText = async function () {
     changeDisplayAllClickers("none");
-    await PlayNarrativeTextObject(object);
+    await playNarrativeTextObject(object);
     changeDisplayAllClickers("inline");
   };
   return object;
 }
 
-async function PlayNarrativeTextObject(narrative_object) {
+async function playNarrativeTextObject(narrative_object) {
   let narrative_array = narrative_object.narrative_array;
   for (let i = 0; i < narrative_array.length; i++) {
     let narrative_hash = narrative_array[i];
@@ -79,75 +98,110 @@ async function PlayNarrativeTextObject(narrative_object) {
   }
 }
 
-
-function createLevelGameLoopObject(game_state){
+function createLevelGameLoopObject(game_state) {
   let object = {};
+  object.game_state = game_state;
+  game_state.level_loop_object = object;
   object.level_object = createLevelObject(game_state);
-  object.GetLevelObject = () =>{
+  object.getLevelObject = () => {
     return object.level_object;
-    }
+  };
   object.clickCheck = () => {
-    let check_bool, result = object.level_object.AdvanceCheck();
+    let [check_bool, result] = object.level_object.advanceCheck();
     if (check_bool == true) {
-      result();
-      }
-    else {
+      true, result();
+    } else {
+      let conditional_funcs_that_returned_false = [];
+      object.conditional_functions.forEach((func) => {
+        let predicate_return_value = func();
+        if (predicate_return_value === false) {
+          conditional_funcs_that_returned_false.push(func);
+        }
+      });
       renderState(game_state);
+      object.conditional_functions = conditional_funcs_that_returned_false;
       return result;
+    }
+  };
+  object.buttons = [];
+  object.addButtonObject = (name, func) => {
+    console.assert(typeof func == "function", "This needs to be a function");
+    let button = createButton(name, uuidv4());
+    button.onclick = async () => {
+      await func();
+      renderState(object.game_state);
+      object.clickCheck(object.game_state);
+    };
+    object.buttons.push(button);
+    renderState(object.game_state);
+
+    return button;
+  };
+  object.conditional_functions = [];
+  object.addConditionalFunction = (func) => {
+    object.conditional_functions.push(func);
+  };
+  object.addConditionalButton = (name, predicate, click_func) => {
+    //predicate must return a bool, or everything will get fucked up;
+    console.assert(
+      typeof predicate == "function",
+      "This needs to be a function"
+    );
+    let addButtonConditionalFunc = (self, new_array) => {
+      if (predicate()) {
+        object.addButtonObject(name, click_func);
+        return true;
+      } else {
+        return false;
       }
-    }
-    object.buttons = [];
-    object.AddButtonObject = (name, func) =>{
-      console.assert(typeof func == 'function', "This needs to be a function");
-      let button = createButton(name,uuidv4());
-      button.onclick = () => {
-         await func(); 
-         renderState(object);
-        };
-      object.buttons.push(button);
-      return button;
-    }
+    };
+    object.addConditionalFunction(addButtonConditionalFunc);
+  };
+
   return object;
-  }
+}
 
 function createLevelObject(game_state) {
   let object = {};
   object.game_state = game_state;
-  object.tasks_object = CreateTasksObject();
-  object.GetTasksObject = () => {
+  object.tasks_object = createTasksObject();
+  object.getTasksObject = () => {
     return object.tasks_object;
   };
   object.next_level_func = () => {
     alert("Error:No next level defined");
   };
-  object.AddNextLevelFunc = (next_level_func) => {
+  object.addNextLevelFunc = (next_level_func) => {
     console.assert(
       typeof next_level_func == "function",
       "next_level_func must be a function"
     );
     object.next_level_func = next_level_func;
   };
-  object.AdvanceCheck = () => {
+  object.advanceCheck = () => {
     let task_object = object.tasks_object;
-    let task_list = task_object.GetTaskList();
+    let task_list = task_object.getTaskList();
     let filter_func = (task_object) => {
+      //console.log(task_object.completion_predicate());
       if (task_object.completion_predicate()) {
         return;
       } else {
         return task_object;
       }
     };
-    let incomplete_tasks = task_object.filter(filter_func);
+    //    Array.prototype.filter()
+
+    let incomplete_tasks = task_list.filter(filter_func);
+    //console.log('tasks', task_list, 'incomplete',incomplete_tasks);
     if (incomplete_tasks.length > 0) {
-      return false,incomplete_tasks;
+      return [false, incomplete_tasks];
     } else {
       object.next_level_func();
-      return true,object.next_level_func; 
+      return [true, object.next_level_func];
     }
   };
   return object;
 }
-
 
 function createButton(name, id, class_name) {
   var button = document.createElement("button");
@@ -157,10 +211,7 @@ function createButton(name, id, class_name) {
   return button;
 }
 
-function createButtonWithListenerObject(name, params){
-
-
-}
+function createButtonWithListenerObject(name, params) {}
 
 function removeAllEventListeners() {
   var all_buttons = document.getElementsByClassName("clicker");
@@ -189,7 +240,10 @@ function callLevel(level_int, game_state) {
 }
 
 function uuidv4() {
-  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
-    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
+    (
+      c ^
+      (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+    ).toString(16)
   );
 }
