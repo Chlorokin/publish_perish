@@ -55,7 +55,7 @@ async function createNarrativeTextObject(
   object.default_console_speed = default_console_speed || 100;
   object.default_type_speed = default_type_speed || 35;
   object.narrative_array = [];
-  //sent no_br=true in params, if you want to skip line break
+  //set no_br=true in params, if you want to skip line break
   //useful for creating pauses without creating new line
   object.addNarrativeText = (text, params) => {
     params = params || {};
@@ -124,32 +124,46 @@ function createLevelGameLoopObject(game_state) {
     }
   };
   object.buttons = [];
-  object.addButtonObject = (name, func) => {
+  object.addButtonObject = (name, func, params) => {
     console.assert(typeof func == "function", "This needs to be a function");
+    let button_object = {}
     let button = createButton(name, uuidv4());
+    button_object.button = button;
+    button_object.kill_predicate = () => {return false};
+    button_object.addKillPredicate = (func) => { 
+    button_object.kill_predicate = func;
+    }
     button.onclick = async () => {
       await func();
       renderState(object.game_state);
       object.clickCheck(object.game_state);
+      if (button_object.kill_predicate())
+        { 
+        button.remove();
+        }
     };
     object.buttons.push(button);
     renderState(object.game_state);
-
-    return button;
+    return button_object;
   };
   object.conditional_functions = [];
   object.addConditionalFunction = (func) => {
     object.conditional_functions.push(func);
   };
-  object.addConditionalButton = (name, predicate, click_func) => {
+  object.addConditionalButton = (name, predicate,click_func,params) => {
     //predicate must return a bool, or everything will get fucked up;
+    params = params || {};
     console.assert(
       typeof predicate == "function",
       "This needs to be a function"
     );
     let addButtonConditionalFunc = (self, new_array) => {
+      let return_false = () => {return false};
+      console.log("parms",params);
+      let kill_predicate = params['kill_predicate'] || return_false;
       if (predicate()) {
-        object.addButtonObject(name, click_func);
+      let button = object.addButtonObject(name, click_func);
+      button.addKillPredicate(kill_predicate);
         return true;
       } else {
         return false;

@@ -281,3 +281,19 @@ async function typing(game_state, typer_object) {
     }
   }
 }
+
+
+async function createBuildNetworkObject(game_state){ 
+  let self = {};
+  self.game_state = game_state;
+  self.play = () =>{
+    document.getElementById("myCanvas").style.display = "";
+    let canvas = document.getElementById("myCanvas");
+    let ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    alert("Replace with animation or typing game or something");
+    document.getElementById("myCanvas").style.display = "None";
+
+  }
+  return self;
+}

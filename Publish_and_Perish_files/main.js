@@ -3,8 +3,8 @@ const debug = true;
 //const debug = false;
 
 let total_papers_published_global = 0;
-const time_is_a_global_variable = Math.round(new Date().getTime() / 1000);
-const pause_time_is_a_global_variable = 0;
+var time_is_a_global_variable = Math.round(new Date().getTime() / 1000);
+var pause_time_is_a_global_variable = 0;
 function startTime() {
   pause_time_is_a_global_variable = 1;
 }
@@ -20,7 +20,7 @@ function easterEgg() {
 function turnOnTimeInterval() {
   var myInterval = setInterval(function () {
     if (pause_time_is_a_global_variable == 1) {
-      time_is_a_global_variable += 600;
+      time_is_a_global_variable += 60;
     }
     if (time_is_a_global_variable >= 2147483647) {
       easterEgg();
@@ -55,8 +55,8 @@ function renderState(game_state) {
   document.getElementById("num_cites").innerHTML = game_state.num_cites;
   document.getElementById("novel_data_sets").innerHTML =
     game_state.novel_data_sets;
-  document.getElementById("canned_data_sets").innerHTML =
-    game_state.canned_data_sets;
+  //document.getElementById("canned_data_sets").innerHTML =
+   // game_state.canned_data_sets;
   document.getElementById("total_storage").innerHTML = game_state.total_storage;
   document.getElementById("storage_used").innerHTML = game_state.storage_used;
   let level_loop_object = game_state.level_loop_object;

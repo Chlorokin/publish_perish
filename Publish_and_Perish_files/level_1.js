@@ -37,9 +37,12 @@ async function levelOneOpening() {
 
 async function levelOne(game_state) {
   await levelOneOpening(game_state);
+///  startTime();
+  document.getElementById("stats_table").style.display = "inline";
   let level_loop_object = createLevelGameLoopObject(game_state);
   let level_object = level_loop_object.getLevelObject();
   let tasks_object = level_object.getTasksObject();
+  tasks_object.addTitle("Get your Phd:")
 
   let task_1 = tasks_object.addTask();
   task_1.addTitle("Publish at least 3 papers");
@@ -69,15 +72,22 @@ async function levelOne(game_state) {
       false;
     }
   };
-  let click_func = () => {
-    alert("CLICK FUNC TEST");
+  let buildNetwork = async () => {
+    let buildNetworkObject = await createBuildNetworkObject(); 
+    await buildNetworkObject.play();
+
   };
-  level_loop_object.addConditionalButton("Train", cond_predicate, click_func);
+
+  let kill_after_first_click = () => {return true}
+  level_loop_object.addConditionalButton("Build network", cond_predicate, buildNetwork,{"kill_predicate":kill_after_first_click});
 
   const buildDataset = async () => {
     if (game_state.storage_used < game_state.total_storage) {
-      game_state.storage_used = game_state.storage_used + 1;
+      if (game_state.data_sets == 1) {
+        play_area_div.appendChild(createButton("Gather data", "build_dataset"));
+      }
       changeDisplayAllClickers("none");
+      game_state.storage_used = game_state.storage_used + 1;
       game_state.novel_data_sets = game_state.novel_data_sets + 1;
       document.getElementById("myCanvas").style.display = "";
       document.getElementById("console").style.display = "none";
@@ -86,15 +96,12 @@ async function levelOne(game_state) {
       document.getElementById("myCanvas").style.display = "none";
       document.getElementById("console").style.display = "";
       renderState(game_state);
-      if (game_state.data_sets == 1) {
-        play_area_div.appendChild(createButton("Gather data", "build_dataset"));
-      }
       changeDisplayAllClickers("inline");
     } else {
       clearConsole();
       let text_object = await createNarrativeTextObject();
       text_object.addNarrativeText(
-        "You have no more storage. Maybe it's time to train?"
+        "You have no more storage. Maybe it's time to design your network?"
       );
       text_object.playText();
     }
