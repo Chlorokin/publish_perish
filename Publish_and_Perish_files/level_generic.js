@@ -119,6 +119,7 @@ function createLevelGameLoopObject(game_state) {
         }
       });
       renderState(game_state);
+      console.log('funcs',conditional_funcs_that_returned_false);
       object.conditional_functions = conditional_funcs_that_returned_false;
       return result;
     }
@@ -139,6 +140,10 @@ function createLevelGameLoopObject(game_state) {
       object.clickCheck(object.game_state);
       if (button_object.kill_predicate())
         { 
+        let index_to_kill = object.buttons.indexOf(button);
+        if(index_to_kill !== -1) {
+          object.buttons.splice(index_to_kill, 1);
+        }
         button.remove();
         }
     };
@@ -146,6 +151,7 @@ function createLevelGameLoopObject(game_state) {
     renderState(object.game_state);
     return button_object;
   };
+
   object.conditional_functions = [];
   object.addConditionalFunction = (func) => {
     object.conditional_functions.push(func);
@@ -153,6 +159,7 @@ function createLevelGameLoopObject(game_state) {
   object.addConditionalButton = (name, predicate,click_func,params) => {
     //predicate must return a bool, or everything will get fucked up;
     params = params || {};
+    let display = params.display || "inline"; 
     console.assert(
       typeof predicate == "function",
       "This needs to be a function"
@@ -163,6 +170,7 @@ function createLevelGameLoopObject(game_state) {
       let kill_predicate = params['kill_predicate'] || return_false;
       if (predicate()) {
       let button = object.addButtonObject(name, click_func);
+      button.button.style.display = display;
       button.addKillPredicate(kill_predicate);
         return true;
       } else {

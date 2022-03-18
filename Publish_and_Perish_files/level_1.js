@@ -72,19 +72,34 @@ async function levelOne(game_state) {
       false;
     }
   };
+  let kill_after_first_click = () => {return true}
+
+  let writePaper = () => {
+    alert("FUCK YOU, you fucking idiot!");
+
+  }
+
   let buildNetwork = async () => {
-    let buildNetworkObject = await createBuildNetworkObject(); 
-    await buildNetworkObject.play();
+    let button = level_loop_object.addButtonObject("Start training", tasks_object.listTasks);
+    alert('Replace with animation or mini-game or something');
+    button.addKillPredicate(kill_after_first_click);
 
   };
 
-  let kill_after_first_click = () => {return true}
-  level_loop_object.addConditionalButton("Build network", cond_predicate, buildNetwork,{"kill_predicate":kill_after_first_click});
+  let cleanData = async () => {
+    let button = level_loop_object.addButtonObject("Build network", buildNetwork);
+    alert('Replace with animation or mini-game or something');
+    button.addKillPredicate(kill_after_first_click);
+
+  };
+
+  level_loop_object.addConditionalButton("Clean data", cond_predicate,cleanData,{"kill_predicate":kill_after_first_click});
 
   const buildDataset = async () => {
     if (game_state.storage_used < game_state.total_storage) {
-      if (game_state.data_sets == 1) {
-        play_area_div.appendChild(createButton("Gather data", "build_dataset"));
+      if (game_state.data_sets > 1) {
+        let gather_button = createButton("Gather data", "build_dataset");
+        await play_area_div.appendChild(gather_button);
       }
       changeDisplayAllClickers("none");
       game_state.storage_used = game_state.storage_used + 1;
@@ -96,6 +111,7 @@ async function levelOne(game_state) {
       document.getElementById("myCanvas").style.display = "none";
       document.getElementById("console").style.display = "";
       renderState(game_state);
+      changeDisplayAllClickers("none");
       changeDisplayAllClickers("inline");
     } else {
       clearConsole();
