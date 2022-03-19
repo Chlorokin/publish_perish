@@ -73,12 +73,36 @@ async function levelOne(game_state) {
     }
   };
   let kill_after_first_click = () => {return true}
+  let submitToJournal = () => {
+    alert('Replace with animation or mini-game or something');
+    changeDisplayAllClickers("inline");
+  }
 
-  let writePaper = () => {
+  let writePaper = async () => {
+    changeDisplayAllClickers("none");
+    let text_object = await createNarrativeTextObject(10, 10);
+    text_object.addClearText();
+    // now let's write a for loop that alerts on each loop
+    let text_block =
+      "Work's done and the results seem great. Now it's time to start typing!";
+    text_object.addNarrativeText(text_block);
+    text_block = "Start hitting those keys.";
+    text_object.addNarrativeText(text_block);
+    await text_object.playText();
+
+
+
     let typer_object = createTyperObject(game_state);
-    typer_object.AddFinishedFunction(function () {
-      alert('finished');
-    });
+    let finish_func = () => {
+      text_object.addClearText();
+      let click_func = () =>{
+        alert('Replace with animation or mini-game or something');
+        changeDisplayAllClickers("inline");
+      }
+      let button = level_loop_object.addButtonObject("Submit to journals", click_func);
+      button.addKillPredicate(kill_after_first_click);
+    };
+    typer_object.AddFinishedFunction(finish_func);
     typer_object.AddTyper(game_state);
 
   }
@@ -104,10 +128,13 @@ async function levelOne(game_state) {
 
   };
 
-  level_loop_object.addConditionalButton("Clean data", cond_predicate,cleanData,{"kill_predicate":kill_after_first_click});
+//  level_loop_object.addConditionalButton("Clean data", cond_predicate,cleanData,{"kill_predicate":kill_after_first_click});
 
   const buildDataset = async () => {
     if (game_state.storage_used < game_state.total_storage) {
+
+      let button = level_loop_object.addButtonObject("Clean data", cleanData);
+      button.addKillPredicate(kill_after_first_click);
       if (game_state.data_sets > 1) {
         let gather_button = createButton("Gather data", "build_dataset");
         await play_area_div.appendChild(gather_button);

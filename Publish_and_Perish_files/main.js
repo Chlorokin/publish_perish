@@ -88,7 +88,7 @@ async function main() {
   game_state.novel_data_sets = 0;
   game_state.canned_data_sets = 0;
   game_state.storage_used = 0;
-  game_state.total_storage = 1;
+  game_state.total_storage = 10;
 
   if (debug) {
     // callLevel(0, game_state);

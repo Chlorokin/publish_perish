@@ -49,11 +49,14 @@ function createTasksObject(title) {
 
 async function createNarrativeTextObject(
   default_console_speed,
-  default_type_speed
+  default_type_speed, 
+  params
 ) {
   let object = {};
+  params = params || {};
   object.default_console_speed = default_console_speed || 100;
   object.default_type_speed = default_type_speed || 35;
+  object.cancel_hide_click = params.cancel_hide_click || false; 
   object.narrative_array = [];
   //set no_br=true in params, if you want to skip line break
   //useful for creating pauses without creating new line
@@ -73,9 +76,13 @@ async function createNarrativeTextObject(
     object.narrative_array.push({ clear: true });
   };
   object.playText = async function () {
-    changeDisplayAllClickers("none");
+    if (params.cancel_hide_click == false){
+      changeDisplayAllClickers("none");
+    }
     await playNarrativeTextObject(object);
+    if (params.cancel_hide_click == false){
     changeDisplayAllClickers("inline");
+    }
   };
   return object;
 }
