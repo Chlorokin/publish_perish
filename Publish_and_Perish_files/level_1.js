@@ -75,12 +75,24 @@ async function levelOne(game_state) {
   let kill_after_first_click = () => {return true}
 
   let writePaper = () => {
-    alert("FUCK YOU, you fucking idiot!");
+    let typer_object = createTyperObject(game_state);
+    typer_object.AddFinishedFunction(function () {
+      alert('finished');
+      //Rejection();
+    });
+    typer_object.AddTyper(game_state);
 
   }
 
+  let startTraining = () => {
+    let button = level_loop_object.addButtonObject("Write paper", writePaper);
+    alert('Replace with animation or mini-game or something');
+    button.addKillPredicate(kill_after_first_click);
+
+
+  }
   let buildNetwork = async () => {
-    let button = level_loop_object.addButtonObject("Start training", tasks_object.listTasks);
+    let button = level_loop_object.addButtonObject("Start training", startTraining);
     alert('Replace with animation or mini-game or something');
     button.addKillPredicate(kill_after_first_click);
 
