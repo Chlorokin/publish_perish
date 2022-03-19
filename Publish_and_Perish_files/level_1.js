@@ -78,7 +78,6 @@ async function levelOne(game_state) {
     let typer_object = createTyperObject(game_state);
     typer_object.AddFinishedFunction(function () {
       alert('finished');
-      //Rejection();
     });
     typer_object.AddTyper(game_state);
 

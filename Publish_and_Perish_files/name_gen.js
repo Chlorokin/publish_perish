@@ -457,7 +457,7 @@ function genPaperName() {
       return "A literature review of " + genAIterm();
     },
   ];
-  result = sampleArray(papernameGenerators)();
+  let result = sampleArray(papernameGenerators)();
   // make first letter uppercase
   result = result.charAt(0).toUpperCase() + result.slice(1);
   return result;
