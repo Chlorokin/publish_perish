@@ -1,5 +1,5 @@
 "use strict";
-const debug = true;
+const debug = false;
 //const debug = false;
 
 let total_papers_published_global = 0;
