@@ -1,7 +1,7 @@
 "use strict";
 
 async function levelOneOpening() {
-  let text_object = await createNarrativeTextObject(10, 10);
+  let text_object = await createNarrativeTextObject();
   text_object.addClearText();
   // now let's write a for loop that alerts on each loop
   let text_block =
@@ -72,6 +72,10 @@ async function levelOne(game_state) {
       false;
     }
   };
+  level_loop_object.addPaperGrind()
+  return;
+
+  addWriterLoop(level_loop_object);
   let kill_after_first_click = () => {return true}
   let submitToJournal = () => {
     alert('Replace with animation or mini-game or something');
