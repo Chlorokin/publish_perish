@@ -47,15 +47,11 @@ function createTasksObject(title) {
   return object;
 }
 
-async function createNarrativeTextObject(
-  default_console_speed,
-  default_type_speed, 
-  params
-) {
+async function createNarrativeTextObject(params){
   let object = {};
   params = params || {};
-  object.default_console_speed = default_console_speed || 100;
-  object.default_type_speed = default_type_speed || 35;
+  object.default_console_speed = params.default_console_speed || 100;
+  object.default_type_speed = params.default_type_speed || 35;
   object.cancel_hide_click = params.cancel_hide_click || false; 
   object.narrative_array = [];
   //set no_br=true in params, if you want to skip line break
@@ -76,11 +72,11 @@ async function createNarrativeTextObject(
     object.narrative_array.push({ clear: true });
   };
   object.playText = async function () {
-    if (params.cancel_hide_click == false){
+    if (object.cancel_hide_click == false){
       changeDisplayAllClickers("none");
     }
     await playNarrativeTextObject(object);
-    if (params.cancel_hide_click == false){
+    if (object.cancel_hide_click == false){
     changeDisplayAllClickers("inline");
     }
   };
@@ -295,7 +291,7 @@ function paperGrind(level_loop_object) {
 
     let writePaper = async () => {
       changeDisplayAllClickers("none");
-      let text_object = await createNarrativeTextObject(10, 10);
+      let text_object = await createNarrativeTextObject({cancel_hide_click:true});
       text_object.addClearText();
       // now let's write a for loop that alerts on each loop
       let text_block =
@@ -310,7 +306,7 @@ function paperGrind(level_loop_object) {
       let typer_object = createTyperObject(game_state);
       let finish_func = async () => {
         changeDisplayAllClickers("inline");
-        let text_object = await createNarrativeTextObject(10, 10);
+        let text_object = await createNarrativeTextObject({cancel_hide_click:true});
         text_object.addClearText();
         text_object.playText();
         let button = level_loop_object.addButtonObject("Submit to journals", submitToJournal);

@@ -90,9 +90,11 @@ async function main() {
   game_state.total_storage = 10;
 
   if (debug) {
-    // callLevel(0, game_state);
+    //callLevel(0, game_state);
     levelOne(game_state);
+    //levelOne(game_state);
   } else {
-    callLevel(0, game_state);
+    levelIntro(game_state);
+    //callLevel(0, game_state);
   }
 }
