@@ -72,11 +72,11 @@ async function createNarrativeTextObject(params){
     object.narrative_array.push({ clear: true });
   };
   object.playText = async function () {
-    if (object.cancel_hide_click == false){
+    if (object.cancel_hide_click === false){
       changeDisplayAllClickers("none");
     }
     await playNarrativeTextObject(object);
-    if (object.cancel_hide_click == false){
+    if (object.cancel_hide_click === false){
     changeDisplayAllClickers("inline");
     }
   };
@@ -299,8 +299,8 @@ function paperGrind(level_loop_object) {
       text_object.addNarrativeText(text_block);
       text_block = "Start hitting those keys.";
       text_object.addNarrativeText(text_block);
-      await text_object.playText();
-      changeDisplayAllClickers("inline");
+      text_object.playText();
+      console.log("text_object",text_object);
 
 
       let typer_object = createTyperObject(game_state);

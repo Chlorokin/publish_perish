@@ -1,5 +1,5 @@
 "use strict";
-const debug = false; //const debug = false;
+const debug = false; //const debug = true;
 
 let total_papers_published_global = 0;
 var time_is_a_global_variable = Math.round(new Date().getTime() / 1000);
